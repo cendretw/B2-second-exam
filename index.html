@@ -1,0 +1,2624 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="dashboard">
+  <meta name="design-style" content="briefing">
+  <title>龍騰高中英文第二冊第二次段考｜全單元互動複習總部 (L4–L6 &amp; R2)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Noto+Serif+TC:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* 1. Briefing style tokens */
+      --background: #faf9f5;
+      --surface-container-low: #ffffff;
+      --surface-container: #f1efe8;
+      --surface-container-high: #e6e2d6;
+
+      --on-surface: #17181a;
+      --on-surface-variant: #56585c;
+
+      --outline: #17181a;
+      --outline-variant: #dedad0;
+
+      --primary: #17181a;
+      --on-primary: #faf9f5;
+      --primary-container: #f2b705;
+      --on-primary-container: #17181a;
+      --secondary: #1f4e5f;
+      --secondary-soft: #e6eff2;
+      --tertiary: #785008;
+      --tertiary-soft: #f5e6c4;
+      --error: #b42318;
+      --error-soft: #fdeceb;
+      --on-error: #ffffff;
+
+      /* Data series */
+      --data-1: #1f4e5f;
+      --data-2: #d99000;
+      --data-3: #2b6e52;
+      --data-4: #b84a39;
+      --data-context: #c4bfb2;
+
+      /* Fonts (with Traditional Chinese support) */
+      --font-headline: 'Noto Serif TC', 'Source Serif 4', serif;
+      --font-body: 'Noto Sans TC', 'Plus Jakarta Sans', sans-serif;
+      --font-label: 'Geist Mono', 'Noto Sans TC', monospace;
+
+      /* Shape */
+      --rounded: 0.25rem;
+      --rounded-lg: 0.375rem;
+      --rounded-full: 0.25rem;
+
+      /* Style effects */
+      --section-rule: 1.5px solid var(--outline);
+      --card-border: 1px solid var(--outline-variant);
+      --badge-radius: 2px;
+      --heading-tracking: -0.015em;
+      --label-tracking: 0.04em;
+
+      /* 2. Shared tokens */
+      --positive: #2b6e52;
+      --positive-soft: #e6f2ec;
+      --warning: #b86e00;
+      --warning-soft: #fcf1de;
+      --focus: #1f4e5f;
+
+      /* Dashboard / Tool Type Scale */
+      --display-size: clamp(1.75rem, 1.35rem + 1.4vw, 2.35rem);
+      --headline-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.55rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.2rem);
+      --body-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+      --label-size: 0.75rem;
+
+      /* Spacing scale */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { overflow-x: clip; margin: 0; padding: 0; }
+    header { position: static !important; }
+
+    body {
+      background: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .page-grid {
+      display: grid;
+      gap: var(--space-xl);
+      padding: var(--space-lg);
+      max-width: 1240px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Briefing Dossier Bar & Header */
+    .dossier-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      border-bottom: var(--section-rule);
+      padding-bottom: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+
+    .dossier-bar-left {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .dossier-pill {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: var(--label-size);
+      letter-spacing: 0;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--badge-radius);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .dossier-meta {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      letter-spacing: 0;
+    }
+
+    .hero-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: end;
+      padding-bottom: var(--space-md);
+    }
+
+    .title {
+      font-family: var(--font-headline);
+      font-size: var(--display-size);
+      font-weight: 700;
+      letter-spacing: var(--heading-tracking);
+      line-height: 1.15;
+      color: var(--on-surface);
+      margin: 0;
+    }
+
+    .standfirst {
+      font-family: var(--font-body);
+      font-size: var(--subhead-size);
+      font-weight: 600;
+      color: var(--secondary);
+      margin: var(--space-sm) 0 0 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+
+    /* Quick Nav Strip */
+    .quick-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      padding: var(--space-sm);
+      background: var(--surface-container);
+      border-top: var(--section-rule);
+      border-bottom: var(--card-border);
+      border-radius: var(--rounded);
+    }
+
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      color: var(--on-surface);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+
+    .nav-link:hover {
+      background: var(--surface-container-high);
+      border-color: var(--outline);
+    }
+
+    .nav-link .index-num {
+      font-family: var(--font-label);
+      color: var(--secondary);
+      font-size: var(--label-size);
+    }
+
+    /* Section Headings */
+    .section-block {
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .section-title-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+
+    .section-heading {
+      font-family: var(--font-headline);
+      font-size: var(--headline-size);
+      font-weight: 700;
+      margin: 0;
+      color: var(--on-surface);
+      line-height: 1.25;
+    }
+
+    .section-sub {
+      font-size: 0.9375rem;
+      color: var(--on-surface-variant);
+      margin: var(--space-xs) 0 0 0;
+      max-width: 65ch;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+    }
+
+    .btn:active { transform: translateY(1px); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: var(--secondary);
+      border-color: var(--secondary);
+    }
+
+    .btn-secondary {
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      border-color: var(--outline-variant);
+    }
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--surface-container-high);
+      border-color: var(--outline);
+    }
+
+    .btn-accent {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      border-color: var(--outline);
+    }
+    .btn-accent:hover:not(:disabled) {
+      background: var(--tertiary-soft);
+    }
+
+    .btn-danger-outline {
+      background: var(--surface-container-low);
+      color: var(--error);
+      border-color: var(--error);
+    }
+    .btn-danger-outline:hover:not(:disabled) {
+      background: var(--error-soft);
+    }
+
+    /* Figure Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+
+    .figure-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .figure-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-xs);
+    }
+
+    .figure-value {
+      font-family: var(--font-headline);
+      font-size: clamp(1.65rem, 1.3rem + 1vw, 2.1rem);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--on-surface);
+      line-height: 1.15;
+    }
+
+    .figure-foot {
+      font-size: 0.8125rem;
+      color: var(--secondary);
+      font-weight: 600;
+    }
+
+    /* Two-column Overview Grid */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: stretch;
+    }
+
+    .panel-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .aside-box {
+      background: var(--surface-container);
+      border-top: var(--section-rule);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .panel-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      border-bottom: 1px solid var(--outline-variant);
+      padding-bottom: var(--space-sm);
+    }
+
+    .panel-title {
+      font-family: var(--font-headline);
+      font-size: 1.125rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .chart-box {
+      position: relative;
+      width: 100%;
+      min-height: 260px;
+    }
+
+    /* Checklist */
+    .checklist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: var(--space-xs);
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-xs) var(--space-sm);
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      cursor: pointer;
+      min-height: 44px;
+      font-size: 0.85rem;
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+
+    .check-item:hover {
+      background: var(--surface-container-high);
+    }
+
+    .check-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--secondary);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .check-item.checked {
+      background: var(--positive-soft);
+      border-color: var(--positive);
+    }
+
+    .lesson-tag {
+      font-family: var(--font-label);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: var(--badge-radius);
+      background: var(--tertiary-soft);
+      color: var(--tertiary);
+      white-space: nowrap;
+    }
+
+    .lesson-tag.l4 { background: var(--secondary-soft); color: var(--secondary); }
+    .lesson-tag.l5 { background: var(--tertiary-soft); color: var(--tertiary); }
+    .lesson-tag.l6 { background: var(--positive-soft); color: var(--positive); }
+    .lesson-tag.r2 { background: var(--surface-container-high); color: var(--on-surface); }
+
+    /* Filters & Controls */
+    .controls-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      align-items: end;
+      background: var(--surface-container);
+      padding: var(--space-md);
+      border-radius: var(--rounded-lg);
+      border: var(--card-border);
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      flex: 1 1 200px;
+    }
+
+    .field-label {
+      font-size: var(--label-size);
+      font-weight: 700;
+      color: var(--on-surface);
+      font-family: var(--font-label);
+    }
+
+    .input-control, .select-control, .textarea-control {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-sm);
+      background: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      color: var(--on-surface);
+      width: 100%;
+    }
+
+    .select-control {
+      padding-right: var(--space-xl);
+    }
+
+    .input-control:focus, .select-control:focus, .textarea-control:focus {
+      border-color: var(--secondary);
+    }
+
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+    }
+
+    .filter-pill {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      background: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      color: var(--on-surface);
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+    }
+
+    .filter-pill:hover {
+      background: var(--surface-container-high);
+    }
+
+    .filter-pill[aria-pressed="true"] {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+
+    /* Vocabulary Cards */
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+
+    .vocab-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      transition: border-color var(--dur-micro) var(--ease-out);
+    }
+
+    .vocab-card.mastered {
+      border-left: 4px solid var(--positive);
+    }
+
+    .vocab-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+
+    .vocab-word {
+      font-family: 'Source Serif 4', var(--font-headline);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--on-surface);
+      margin: 0;
+    }
+
+    .vocab-phonetic {
+      font-family: var(--font-label);
+      font-size: 0.8rem;
+      color: var(--on-surface-variant);
+    }
+
+    .vocab-meaning {
+      font-weight: 700;
+      color: var(--secondary);
+      font-size: 1rem;
+    }
+
+    .vocab-example {
+      font-size: 0.875rem;
+      color: var(--on-surface);
+      background: var(--surface-container);
+      padding: var(--space-sm);
+      border-radius: var(--rounded);
+      border-left: 3px solid var(--secondary);
+    }
+
+    .vocab-derived {
+      font-size: 0.8125rem;
+      color: var(--on-surface-variant);
+    }
+
+    .vocab-card-foot {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-xs);
+      padding-top: var(--space-xs);
+      border-top: 1px solid var(--outline-variant);
+    }
+
+    .btn-sm {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-sm);
+      font-size: 0.8125rem;
+    }
+
+    .vocab-table-wrap {
+      overflow-x: auto;
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    .data-table th {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface);
+      background: var(--surface-container);
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: var(--section-rule);
+      white-space: nowrap;
+    }
+
+    .data-table td {
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: 1px solid var(--outline-variant);
+      vertical-align: top;
+    }
+
+    /* Flashcard Mode */
+    .flashcard-stage {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-xl);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-md);
+      text-align: center;
+    }
+
+    .flashcard-box {
+      width: 100%;
+      max-width: 640px;
+      min-height: 220px;
+      background: var(--background);
+      border: 2px solid var(--outline);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-xl);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: var(--space-sm);
+      cursor: pointer;
+    }
+
+    /* Grammar Cards */
+    .grammar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(520px, 100%), 1fr));
+      gap: var(--space-lg);
+    }
+
+    .grammar-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .formula-box {
+      background: var(--surface-container);
+      border-left: 4px solid var(--primary-container);
+      padding: var(--space-sm) var(--space-md);
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--on-surface);
+      border-radius: var(--rounded);
+    }
+
+    .trap-callout {
+      background: var(--warning-soft);
+      border-left: 4px solid var(--warning);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      font-size: 0.875rem;
+    }
+
+    .drill-box {
+      background: var(--background);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .drill-feedback {
+      font-size: 0.875rem;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded);
+      font-weight: 600;
+    }
+    .drill-feedback.ok { background: var(--positive-soft); color: var(--positive); }
+    .drill-feedback.bad { background: var(--error-soft); color: var(--error); }
+
+    /* Pronoun Visual Lab */
+    .pronoun-viz {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+      padding: var(--space-md);
+      background: var(--surface-container);
+      border-radius: var(--rounded);
+    }
+
+    .pronoun-token {
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded);
+      font-weight: 700;
+      font-size: 0.85rem;
+      border: 1px solid var(--outline);
+      background: var(--surface-container-low);
+    }
+    .pronoun-token.one { background: var(--primary-container); color: var(--on-primary-container); }
+    .pronoun-token.another { background: var(--secondary-soft); color: var(--secondary); }
+    .pronoun-token.the-other { background: var(--positive-soft); color: var(--positive); }
+
+    /* Reading & Story Explorer */
+    .reading-split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+    }
+
+    .timeline-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .timeline-step {
+      display: grid;
+      grid-template-columns: 76px minmax(0, 1fr);
+      gap: var(--space-md);
+      padding: var(--space-sm) var(--space-md);
+      background: var(--surface-container);
+      border-radius: var(--rounded);
+      border-left: 3px solid var(--secondary);
+    }
+
+    .timeline-year {
+      font-family: var(--font-label);
+      font-weight: 700;
+      color: var(--secondary);
+    }
+
+    /* Freytag Pyramid */
+    .pyramid-wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: var(--space-md);
+      align-items: center;
+    }
+
+    .pyramid-btn {
+      cursor: pointer;
+      transition: opacity var(--dur-micro) var(--ease-out);
+    }
+    .pyramid-btn:hover { opacity: 0.85; }
+
+    /* Cornell Simulator */
+    .cornell-sheet {
+      border: 2px solid var(--outline);
+      border-radius: var(--rounded-lg);
+      background: var(--surface-container-low);
+      overflow: hidden;
+    }
+
+    .cornell-top {
+      background: var(--surface-container);
+      border-bottom: 2px solid var(--outline);
+      padding: var(--space-sm) var(--space-md);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .cornell-columns {
+      display: grid;
+      grid-template-columns: minmax(220px, 32%) minmax(0, 68%);
+      border-bottom: 2px solid var(--outline);
+    }
+
+    .cornell-cues {
+      border-right: 2px solid var(--outline);
+      padding: var(--space-md);
+      background: var(--background);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .cornell-notes {
+      padding: var(--space-md);
+      background: var(--surface-container-low);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      position: relative;
+    }
+
+    .cornell-notes.covered .cornell-notes-area {
+      filter: blur(8px);
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .cornell-summary {
+      padding: var(--space-md);
+      background: var(--surface-container);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    /* Mock Exam */
+    .quiz-item {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .quiz-options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-xs);
+    }
+
+    .quiz-opt {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      background: var(--background);
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .quiz-opt:hover { background: var(--surface-container); }
+    .quiz-opt.selected { border-color: var(--secondary); background: var(--secondary-soft); font-weight: 600; }
+    .quiz-opt.correct { border-color: var(--positive); background: var(--positive-soft); color: var(--positive); font-weight: 700; }
+    .quiz-opt.wrong { border-color: var(--error); background: var(--error-soft); color: var(--error); }
+
+    .status-banner {
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      font-size: 0.875rem;
+      font-weight: 600;
+      background: var(--secondary-soft);
+      color: var(--secondary);
+      border-left: 4px solid var(--secondary);
+    }
+
+    .hidden { display: none !important; }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 960px) {
+      .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .overview-grid, .reading-split, .pyramid-wrap { grid-template-columns: 1fr; }
+      .hero-header { grid-template-columns: 1fr; }
+      .hero-actions { justify-content: flex-start; }
+    }
+
+    @media (max-width: 640px) {
+      .page-grid { padding: var(--space-md); gap: var(--space-lg); }
+      .kpi-grid { grid-template-columns: 1fr; }
+      .quiz-options { grid-template-columns: 1fr; }
+      .cornell-columns { grid-template-columns: 1fr; }
+      .cornell-cues { border-right: none; border-bottom: 2px solid var(--outline); }
+      aside { display: block; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-grid">
+    <!-- HEADER -->
+    <header>
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">MIDTERM DOSSIER</span>
+          <span class="dossier-meta">龍騰高中英文 第二冊｜第二次段考全方位複習儀表板（L4 · L5 · L6 · Review 2）</span>
+        </div>
+        <span class="dossier-meta" id="sync-status-text">已載入本機複習狀態</span>
+      </div>
+
+      <div class="hero-header">
+        <div>
+          <h1 class="title">龍騰英文 B2 第二次段考｜互動複習總部</h1>
+          <p class="standfirst">整合 Lesson 4 馬拉拉、Lesson 5 華特迪士尼、Lesson 6 奇蹟男孩與 Review 2 康乃爾筆記法——單字片語、六大核心句型、閱讀圖解與 20 題仿真模考一站完成。</p>
+        </div>
+        <div class="hero-actions">
+          <button type="button" class="btn btn-secondary" onclick="exportStudyReport()">
+            <i data-lucide="download" width="16" height="16" aria-hidden="true"></i>
+            匯出複習紀錄
+          </button>
+          <button type="button" class="btn btn-danger-outline" id="btn-reset-progress" onclick="handleResetProgress(this)">
+            <i data-lucide="rotate-ccw" width="16" height="16" aria-hidden="true"></i>
+            重設學習進度
+          </button>
+        </div>
+      </div>
+
+      <nav class="quick-nav" aria-label="複習單元快速導覽">
+        <a class="nav-link" href="#sec-overview"><span class="index-num">01</span>考前戰情與檢核</a>
+        <a class="nav-link" href="#sec-vocab"><span class="index-num">02</span>字彙與片語特訓 (103)</a>
+        <a class="nav-link" href="#sec-grammar"><span class="index-num">03</span>核心句型診療室 (6)</a>
+        <a class="nav-link" href="#sec-reading"><span class="index-num">04</span>課文脈絡與康乃爾筆記</a>
+        <a class="nav-link" href="#sec-exam"><span class="index-num">05</span>段考仿真模擬測驗 (20)</a>
+      </nav>
+    </header>
+
+    <!-- SECTION 01: OVERVIEW & KPI -->
+    <section id="sec-overview" class="section-block" aria-labelledby="heading-overview">
+      <div class="section-title-row">
+        <div>
+          <h2 id="heading-overview" class="section-heading">01｜考前戰情總覽與課本自我檢核</h2>
+          <p class="section-sub">即時追蹤字彙精熟率、文法練習完成度與模擬考成績；右方對應 Review 2 課本學習檢核清單（p. 144）。</p>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="figure-card">
+          <span class="figure-label">綜合複習完成度 <i data-lucide="gauge" width="14" height="14" aria-hidden="true"></i></span>
+          <span class="figure-value" id="kpi-overall">0%</span>
+          <span class="figure-foot" id="kpi-overall-note">勾選單字與完成練習即自動累計</span>
+        </div>
+        <div class="figure-card">
+          <span class="figure-label">核心字彙／片語精熟 <i data-lucide="book-open-check" width="14" height="14" aria-hidden="true"></i></span>
+          <span class="figure-value" id="kpi-vocab">0 / 103</span>
+          <span class="figure-foot">涵蓋 L4–L6 Production &amp; R2 字彙</span>
+        </div>
+        <div class="figure-card">
+          <span class="figure-label">句型文法通關數 <i data-lucide="puzzle" width="14" height="14" aria-hidden="true"></i></span>
+          <span class="figure-value" id="kpi-grammar">0 / 12</span>
+          <span class="figure-foot">6 大核心文法 × 2 題實戰演練</span>
+        </div>
+        <div class="figure-card">
+          <span class="figure-label">仿真模擬考最佳分數 <i data-lucide="award" width="14" height="14" aria-hidden="true"></i></span>
+          <span class="figure-value" id="kpi-exam">--</span>
+          <span class="figure-foot" id="kpi-exam-note">尚未提交模擬試卷</span>
+        </div>
+      </div>
+
+      <div class="overview-grid">
+        <div class="panel-card">
+          <div class="panel-header">
+            <h3 class="panel-title">各課精熟進度分佈（L4–R2）</h3>
+            <span class="dossier-meta">即時連動單字勾選與模考表現</span>
+          </div>
+          <div class="chart-box">
+            <canvas id="masteryChart" aria-label="各課精熟度長條圖"></canvas>
+          </div>
+        </div>
+
+        <aside class="aside-box" aria-label="課本學習檢核清單">
+          <div class="panel-header">
+            <h3 class="panel-title">課本 Learning Checklist (p. 144)</h3>
+            <span class="dossier-meta" id="checklist-count">0 / 12</span>
+          </div>
+          <p class="section-sub" style="margin-top:0;">勾選你已經完全掌握的段考核心項目，不熟的項目請直接跳至下方對應單元加強：</p>
+          <div class="checklist-grid" id="checklist-container"></div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- SECTION 02: VOCABULARY & IDIOMS -->
+    <section id="sec-vocab" class="section-block" aria-labelledby="heading-vocab">
+      <div class="section-title-row">
+        <div>
+          <h2 id="heading-vocab" class="section-heading">02｜字彙與片語全方位特訓庫</h2>
+          <p class="section-sub">完整收錄 L4（20字+5片語）、L5（22字+7片語）、L6（19字+8片語）與 Review 2（18字+4片語），含詞類變化、不規則三態與課本例句。</p>
+        </div>
+        <div class="pill-group" role="group" aria-label="顯示模式切換">
+          <button type="button" class="filter-pill" id="mode-cards" aria-pressed="true" onclick="setVocabViewMode('cards')">卡片瀏覽</button>
+          <button type="button" class="filter-pill" id="mode-flash" aria-pressed="false" onclick="setVocabViewMode('flash')">翻卡背誦</button>
+          <button type="button" class="filter-pill" id="mode-table" aria-pressed="false" onclick="setVocabViewMode('table')">精簡總表</button>
+        </div>
+      </div>
+
+      <div class="controls-bar">
+        <div class="field-group">
+          <label class="field-label" for="vocab-search">搜尋單字、片語或中文釋義</label>
+          <input type="search" id="vocab-search" class="input-control" placeholder="例如：persuade、in turn、克服、L5…" oninput="renderVocab()">
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="vocab-lesson-filter">篩選單元</label>
+          <select id="vocab-lesson-filter" class="select-control" onchange="renderVocab()">
+            <option value="ALL">全部單元 (103 項)</option>
+            <option value="L4">Lesson 4：Malala (25 項)</option>
+            <option value="L5">Lesson 5：Walt Disney (29 項)</option>
+            <option value="L6">Lesson 6：Wonder (27 項)</option>
+            <option value="R2">Review 2：Cornell Notes (22 項)</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="vocab-type-filter">項目類別與熟練狀態</label>
+          <select id="vocab-type-filter" class="select-control" onchange="renderVocab()">
+            <option value="ALL">全部類別</option>
+            <option value="word">僅核心單字 (Words)</option>
+            <option value="idiom">僅重要片語 (Idioms &amp; Phrases)</option>
+            <option value="unmastered">僅顯示「尚未精熟」</option>
+            <option value="mastered">僅顯示「已精熟」</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="dossier-meta" id="vocab-result-count">顯示 103 / 103 項</div>
+
+      <div id="vocab-cards-view" class="vocab-grid"></div>
+
+      <div id="vocab-flash-view" class="flashcard-stage hidden">
+        <div class="dossier-meta" id="flash-counter">第 1 張 / 共 103 張</div>
+        <div class="flashcard-box" id="flashcard-box" tabindex="0" role="button" aria-label="點擊翻開字彙解答" onclick="toggleFlashcardFlip()" onkeydown="handleFlashKey(event)">
+          <span class="lesson-tag" id="flash-tag">L4</span>
+          <h3 class="vocab-word" id="flash-front-word" style="font-size:2rem;">female</h3>
+          <div class="vocab-phonetic" id="flash-front-pos">adj. / n.</div>
+          <div id="flash-back-content" class="hidden" style="margin-top:0.5rem;">
+            <div class="vocab-meaning" id="flash-meaning"></div>
+            <div class="vocab-derived" id="flash-derived" style="margin:0.4rem 0;"></div>
+            <div class="vocab-example" id="flash-example" style="text-align:left;"></div>
+          </div>
+          <div class="dossier-meta" id="flash-hint" style="margin-top:0.75rem;">點擊卡片或按 Enter 查看釋義與例句</div>
+        </div>
+        <div class="pill-group">
+          <button type="button" class="btn btn-secondary" onclick="stepFlashcard(-1)">上一張</button>
+          <button type="button" class="btn btn-accent" id="flash-master-btn" onclick="toggleCurrentFlashMastered()">標記為已精熟</button>
+          <button type="button" class="btn btn-primary" onclick="stepFlashcard(1)">下一張</button>
+        </div>
+      </div>
+
+      <div id="vocab-table-view" class="vocab-table-wrap hidden">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>單元</th>
+              <th>字彙 / 片語</th>
+              <th>詞性與變化</th>
+              <th>中文釋義</th>
+              <th>課本精選例句</th>
+              <th>狀態</th>
+            </tr>
+          </thead>
+          <tbody id="vocab-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECTION 03: GRAMMAR & SENTENCE PATTERNS -->
+    <section id="sec-grammar" class="section-block" aria-labelledby="heading-grammar">
+      <div class="section-title-row">
+        <div>
+          <h2 id="heading-grammar" class="section-heading">03｜核心句型與文法診療室</h2>
+          <p class="section-sub">徹底拆解本次段考必考的六大句型結構與段考陷阱，並附上即時作答批改與詳解。</p>
+        </div>
+        <div class="pill-group" role="group" aria-label="文法課次篩選">
+          <button type="button" class="filter-pill" data-gfilter="ALL" aria-pressed="true" onclick="filterGrammar('ALL', this)">全部 (6)</button>
+          <button type="button" class="filter-pill" data-gfilter="L4" aria-pressed="false" onclick="filterGrammar('L4', this)">L4 句型 (2)</button>
+          <button type="button" class="filter-pill" data-gfilter="L5" aria-pressed="false" onclick="filterGrammar('L5', this)">L5 句型 (2)</button>
+          <button type="button" class="filter-pill" data-gfilter="L6" aria-pressed="false" onclick="filterGrammar('L6', this)">L6 句型 (2)</button>
+        </div>
+      </div>
+
+      <!-- Interactive L6 Pronoun Visualizer -->
+      <div class="panel-card" id="pronoun-lab-card">
+        <div class="panel-header">
+          <h3 class="panel-title">互動圖解工作區｜L6 不定代名詞範圍辨析（One / Another / The other(s) / Some / Others）</h3>
+          <span class="lesson-tag l6">Lesson 6 重點</span>
+        </div>
+        <p class="section-sub" style="margin-top:0;">段考最常考「有明確範圍（剩餘全部加 <strong>the</strong>）」與「無特定範圍」的區別。點選下方情境切換視覺圖解：</p>
+        <div class="pill-group" role="group" aria-label="選擇不定代名詞數量情境">
+          <button type="button" class="filter-pill" aria-pressed="true" onclick="setPronounScenario(0, this)">兩者：One…, and the other…</button>
+          <button type="button" class="filter-pill" aria-pressed="false" onclick="setPronounScenario(1, this)">三者：One…, another…, and the other…</button>
+          <button type="button" class="filter-pill" aria-pressed="false" onclick="setPronounScenario(2, this)">指定多數：Some…, and the others…</button>
+          <button type="button" class="filter-pill" aria-pressed="false" onclick="setPronounScenario(3, this)">三組分佈：Some…, some/others…, and the others…</button>
+          <button type="button" class="filter-pill" aria-pressed="false" onclick="setPronounScenario(4, this)">無範圍泛指：Some…, and others…</button>
+        </div>
+        <div id="pronoun-viz-display" class="pronoun-viz"></div>
+        <div id="pronoun-viz-caption" class="status-banner"></div>
+      </div>
+
+      <div class="grammar-grid" id="grammar-container"></div>
+    </section>
+
+    <!-- SECTION 04: READING COMPREHENSION & CORNELL LAB -->
+    <section id="sec-reading" class="section-block" aria-labelledby="heading-reading">
+      <div class="section-title-row">
+        <div>
+          <h2 id="heading-reading" class="section-heading">04｜課文脈絡、閱讀策略與康乃爾筆記實作</h2>
+          <p class="section-sub">掌握 L4 新聞報導 vs. 專題報導、L5 舉例支持細節、L6 奇蹟男孩情節金字塔，並親手操作 Review 2 康乃爾筆記系統。</p>
+        </div>
+      </div>
+
+      <!-- L4 & L5 Split -->
+      <div class="reading-split">
+        <!-- L4 Card -->
+        <article class="panel-card">
+          <div class="panel-header">
+            <h3 class="panel-title">Lesson 4｜馬拉拉：新聞報導 vs. 專題報導 &amp; 生平時間軸</h3>
+            <span class="lesson-tag l4">L4 閱讀策略</span>
+          </div>
+          <div class="vocab-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>比較項目</th>
+                  <th>新聞報導 (News Report)</th>
+                  <th>專題報導 (Feature Article)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>主題</strong></td>
+                  <td>具時效性的近期事件 (time-sensitive)</td>
+                  <td>無時效限制的議題 (not time-dependent)</td>
+                </tr>
+                <tr>
+                  <td><strong>內容</strong></td>
+                  <td>客觀描述事件本身 (objective)</td>
+                  <td>多角度探討背景故事、深入分析或作者評論</td>
+                </tr>
+                <tr>
+                  <td><strong>結構</strong></td>
+                  <td><strong>倒金字塔結構 (Inverted pyramid)</strong>：最重要資訊放第一段，次要放後</td>
+                  <td>無固定結構或寫作風格（本課課文即為專題報導）</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <strong style="font-size:0.9375rem;">2008–2014 課本脈絡時間軸（p. 86 Graphic Organizer）</strong>
+            <div class="timeline-list" style="margin-top:0.5rem;">
+              <div class="timeline-step">
+                <span class="timeline-year">2007–09</span>
+                <div>塔利班控制 Swat Valley，禁止女孩上學並炸毀逾百間女校；身為校長的父親鼓勵馬拉拉繼續求學。</div>
+              </div>
+              <div class="timeline-step">
+                <span class="timeline-year">2009</span>
+                <div>開始為 <strong>BBC</strong> 撰寫部落格，揭露塔利班統治下的生活與女孩受教權。</div>
+              </div>
+              <div class="timeline-step">
+                <span class="timeline-year">2012.10.09</span>
+                <div>塔利班發出死亡威脅並於校車上開槍擊中馬拉拉頭部；手術奇蹟生還後送往英國治療康復。</div>
+              </div>
+              <div class="timeline-step">
+                <span class="timeline-year">2013–14</span>
+                <div>全球逾兩百萬人連署呼籲平等教育，促使巴基斯坦政府採納新政策、成立 <strong>Malala Fund</strong>；2014 年 17 歲成為史上最年輕<strong>諾貝爾和平獎</strong>得主。</div>
+              </div>
+            </div>
+          </div>
+          <div class="status-banner">
+            UN 演說名言："One child, one teacher, one book, and one pen can change the world!"
+          </div>
+        </article>
+
+        <!-- L5 Card -->
+        <article class="panel-card">
+          <div class="panel-header">
+            <h3 class="panel-title">Lesson 5｜華特迪士尼：舉例支持細節 (Supporting Details)</h3>
+            <span class="lesson-tag l5">L5 閱讀策略</span>
+          </div>
+          <p class="section-sub" style="margin-top:0;">作者常使用 <strong>like / for example / for instance / such as</strong> 引出具體例證，證明中心主旨：<em>Never give up pursuing your dreams.</em></p>
+          <div class="timeline-list">
+            <div class="timeline-step">
+              <span class="timeline-year">例證 1<br>歌曲</span>
+              <div><strong><em>When You Wish Upon a Star</em></strong>（1940《木偶奇遇記》片頭與樂園遊行）：<em>"If your heart is in your dreams, no request is too extreme."</em></div>
+            </div>
+            <div class="timeline-step">
+              <span class="timeline-year">例證 2<br>創辦人</span>
+              <div><strong>Walt Disney</strong>（22 歲創立工作室，歷經失敗與貧困仍堅持嘗試），1928 年創造 <strong>Mickey Mouse</strong> 拯救事業：<em>"If you can dream it, you can do it."</em></div>
+            </div>
+            <div class="timeline-step">
+              <span class="timeline-year">例證 3<br>動畫角色</span>
+              <div><strong>《花木蘭》Mulan</strong>（以機智與不氣餒克服性別劣勢）與<strong>《動物方城市》Judy</strong>（不被看好仍立即行動克服障礙成為警官）。</div>
+            </div>
+          </div>
+          <div class="aside-box" style="padding:var(--space-md);">
+            <strong style="font-size:0.9rem;">前導閱讀：迪士尼女主角三大冷知識 (p. 103)</strong>
+            <ul style="margin:0; padding-left:1.2rem; font-size:0.875rem;">
+              <li>多數未滿 20 歲：Ariel、Snow White 約 14–16 歲；Pocahontas、Rapunzel 約 17–19 歲。</li>
+              <li>少數穿長褲而非裙裝：Jasmine、Mulan、Elsa。</li>
+              <li>角色形象隨時代翻轉：從傳統家務（Snow White、Cinderella）轉向勇敢武藝（Mulan 劍術、Merida 射箭騎馬）。</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <!-- L6 Freytag Pyramid -->
+      <article class="panel-card">
+        <div class="panel-header">
+          <h3 class="panel-title">Lesson 6｜奇蹟男孩 (Wonder)：Freytag 情節金字塔互動探索 &amp; 視角對照</h3>
+          <span class="lesson-tag l6">L6 故事結構</span>
+        </div>
+        <div class="pyramid-wrap">
+          <div>
+            <svg viewBox="0 0 560 280" width="100%" role="img" aria-label="Freytag 情節金字塔七階段互動圖">
+              <line x1="30" y1="240" x2="530" y2="240" stroke="var(--outline-variant)" stroke-width="2" />
+              <polyline points="45,230 140,230 280,48 420,230 515,230" fill="none" stroke="var(--secondary)" stroke-width="4" stroke-linejoin="round" />
+
+              <!-- 7 Nodes -->
+              <g class="pyramid-btn" tabindex="0" role="button" aria-label="1 開端 Exposition" onclick="selectPyramidStage(0)" onkeydown="if(event.key==='Enter')selectPyramidStage(0)">
+                <circle cx="55" cy="230" r="14" fill="var(--primary)" />
+                <text x="55" y="235" text-anchor="middle" fill="var(--on-primary)" font-size="12" font-weight="700">1</text>
+                <text x="55" y="262" text-anchor="middle" fill="var(--on-surface)" font-size="11" font-weight="600">Exposition</text>
+              </g>
+              <g class="pyramid-btn" tabindex="0" role="button" aria-label="2 引發事件 Inciting Incident" onclick="selectPyramidStage(1)" onkeydown="if(event.key==='Enter')selectPyramidStage(1)">
+                <circle cx="138" cy="230" r="14" fill="var(--primary-container)" stroke="var(--outline)" stroke-width="1.5" />
+                <text x="138" y="235" text-anchor="middle" fill="var(--on-primary-container)" font-size="12" font-weight="700">2</text>
+                <text x="138" y="262" text-anchor="middle" fill="var(--on-surface)" font-size="11" font-weight="600">Inciting</text>
+              </g>
+              <g class="pyramid-btn" tabindex="0" role="button" aria-label="3 發展 Rising Action" onclick="selectPyramidStage(2)" onkeydown="if(event.key==='Enter')selectPyramidStage(2)">
+                <circle cx="208" cy="140" r="14" fill="var(--secondary)" />
+                <text x="208" y="145" text-anchor="middle" fill="var(--on-primary)" font-size="12" font-weight="700">3</text>
+                <text x="165" y="138" text-anchor="end" fill="var(--on-surface)" font-size="11" font-weight="600">Rising Action</text>
+              </g>
+              <g class="pyramid-btn" tabindex="0" role="button" aria-label="4 高潮 Climax" onclick="selectPyramidStage(3)" onkeydown="if(event.key==='Enter')selectPyramidStage(3)">
+                <circle cx="280" cy="48" r="16" fill="var(--data-4)" />
+                <text x="280" y="53" text-anchor="middle" fill="var(--on-primary)" font-size="13" font-weight="700">4</text>
+                <text x="280" y="24" text-anchor="middle" fill="var(--data-4)" font-size="12" font-weight="700">Climax 高潮</text>
+              </g>
+              <g class="pyramid-btn" tabindex="0" role="button" aria-label="5 下降 Falling Action" onclick="selectPyramidStage(4)" onkeydown="if(event.key==='Enter')selectPyramidStage(4)">
+                <circle cx="352" cy="140" r="14" fill="var(--secondary)" />
+                <text x="352" y="145" text-anchor="middle" fill="var(--on-primary)" font-size="12" font-weight="700">5</text>
+                <text x="374" y="138" text-anchor="start" fill="var(--on-surface)" font-size="11" font-weight="600">Falling Action</text>
+              </g>
+              <g class="pyramid-btn" tabindex="0" role="button" aria-label="6 解決 Resolution" onclick="selectPyramidStage(5)" onkeydown="if(event.key==='Enter')selectPyramidStage(5)">
+                <circle cx="422" cy="230" r="14" fill="var(--positive)" />
+                <text x="422" y="235" text-anchor="middle" fill="var(--on-primary)" font-size="12" font-weight="700">6</text>
+                <text x="422" y="262" text-anchor="middle" fill="var(--on-surface)" font-size="11" font-weight="600">Resolution</text>
+              </g>
+              <g class="pyramid-btn" tabindex="0" role="button" aria-label="7 結局 Denouement" onclick="selectPyramidStage(6)" onkeydown="if(event.key==='Enter')selectPyramidStage(6)">
+                <circle cx="505" cy="230" r="14" fill="var(--primary)" />
+                <text x="505" y="235" text-anchor="middle" fill="var(--on-primary)" font-size="12" font-weight="700">7</text>
+                <text x="505" y="262" text-anchor="middle" fill="var(--on-surface)" font-size="11" font-weight="600">Denouement</text>
+              </g>
+            </svg>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:var(--space-sm);">
+            <div class="aside-box" id="pyramid-detail-box" style="margin:0;">
+              <div class="dossier-meta" id="pyramid-stage-label">點擊左側金字塔節點查看情節</div>
+              <h4 id="pyramid-stage-title" style="margin:0; font-family:var(--font-headline); font-size:1.125rem;"></h4>
+              <p id="pyramid-stage-desc" style="margin:0; font-size:0.9375rem;"></p>
+            </div>
+            <div class="status-banner" style="font-weight:500;">
+              <strong>視角考點 (Point of View)：</strong>p.125 導入短文使用<strong>第一人稱 (I / me)</strong>；p.126–128 課文改採<strong>第三人稱 (he / they)</strong>，且課文從未直接描寫 Auggie 五官，而是透過同學反應間接呈現！
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- R2 Cornell Note-Taking Simulator -->
+      <article class="panel-card">
+        <div class="panel-header">
+          <h3 class="panel-title">Review 2｜康乃爾筆記系統 (Cornell Note-Taking System) 互動實戰工作坊</h3>
+          <span class="lesson-tag r2">R2 核心閱讀</span>
+        </div>
+        <p class="section-sub" style="margin-top:0;">
+          康乃爾筆記將頁面分為三區：<strong>one</strong> for notes (課中右欄)、<strong>another</strong> for cues (課後 1–2 天左欄)、<strong>and the other</strong> for a summary (反思後底欄)。切換範例課文並測試「遮蓋 Notes 背誦」功能（內容將自動儲存）：
+        </p>
+        <div class="pill-group" role="group" aria-label="載入康乃爾筆記範本">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="loadCornellPreset('R2')">範本：R2 筆記法重點</button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="loadCornellPreset('L4')">範本：L4 馬拉拉整理</button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="loadCornellPreset('L5')">範本：L5 迪士尼整理</button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="loadCornellPreset('L6')">範本：L6 奇蹟男孩整理</button>
+          <button type="button" class="btn btn-accent btn-sm" id="btn-toggle-cover" onclick="toggleCornellCover()">
+            <i data-lucide="eye-off" width="15" height="15" aria-hidden="true"></i>
+            遮蓋 Notes 區背誦自測
+          </button>
+        </div>
+
+        <div class="cornell-sheet">
+          <div class="cornell-top">
+            <strong>CORNELL NOTES WORKSPACE｜<span id="cornell-topic-label">自訂 / R2 複習</span></strong>
+            <span class="dossier-meta">建議每週定期複習 (on a weekly basis) 以強化長期記憶</span>
+          </div>
+          <div class="cornell-columns">
+            <div class="cornell-cues">
+              <label class="field-label" for="cornell-cues-input">Cues Section（課後 1–2 天：關鍵字、提示與模擬考題）</label>
+              <textarea id="cornell-cues-input" class="textarea-control" rows="8" oninput="saveCornellInputs()"></textarea>
+            </div>
+            <div class="cornell-notes" id="cornell-notes-panel">
+              <label class="field-label" for="cornell-notes-input">Notes Section（上課中：大綱、短語、符號、縮寫、圖表）</label>
+              <textarea id="cornell-notes-input" class="textarea-control cornell-notes-area" rows="8" oninput="saveCornellInputs()"></textarea>
+            </div>
+          </div>
+          <div class="cornell-summary">
+            <label class="field-label" for="cornell-summary-input">Summary Section（反思三問後，用自己的話寫出核心摘要）</label>
+            <textarea id="cornell-summary-input" class="textarea-control" rows="3" oninput="saveCornellInputs()"></textarea>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- SECTION 05: MOCK EXAM -->
+    <section id="sec-exam" class="section-block" aria-labelledby="heading-exam">
+      <div class="section-title-row">
+        <div>
+          <h2 id="heading-exam" class="section-heading">05｜第二次段考仿真綜合模擬測驗</h2>
+          <p class="section-sub">精選 20 題涵蓋字彙、片語、六大文法與閱讀理解。可選擇單課檢定或全範圍計分，交卷後自動分析各課弱點與詳解。</p>
+        </div>
+        <div class="pill-group" role="group" aria-label="模擬考範圍選擇">
+          <button type="button" class="filter-pill" aria-pressed="true" onclick="setExamScope('ALL', this)">全範圍模考 (20題)</button>
+          <button type="button" class="filter-pill" aria-pressed="false" onclick="setExamScope('L4', this)">L4 (5題)</button>
+          <button type="button" class="filter-pill" aria-pressed="false" onclick="setExamScope('L5', this)">L5 (5題)</button>
+          <button type="button" class="filter-pill" aria-pressed="false" onclick="setExamScope('L6', this)">L6 (5題)</button>
+          <button type="button" class="filter-pill" aria-pressed="false" onclick="setExamScope('R2', this)">R2 (5題)</button>
+        </div>
+      </div>
+
+      <div id="exam-result-banner" class="panel-card hidden">
+        <div class="panel-header">
+          <h3 class="panel-title" id="exam-score-headline">測驗結果</h3>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="resetExamAttempt()">清除作答重測</button>
+        </div>
+        <div id="exam-breakdown" class="kpi-grid"></div>
+      </div>
+
+      <div id="exam-questions-container" class="section-block"></div>
+
+      <div style="display:flex; flex-wrap:wrap; gap:var(--space-md); align-items:center;">
+        <button type="button" class="btn btn-primary" onclick="gradeExam()">
+          <i data-lucide="check-circle-2" width="16" height="16" aria-hidden="true"></i>
+          提交試卷並立即批改
+        </button>
+        <button type="button" class="btn btn-secondary" onclick="resetExamAttempt()">清空目前作答</button>
+        <span class="dossier-meta" id="exam-answered-count">已作答 0 / 20 題</span>
+      </div>
+    </section>
+
+    <footer style="border-top: var(--section-rule); padding-top: var(--space-md); color: var(--on-surface-variant); font-size: 0.8125rem;">
+      資料依據：龍騰文化普通型高級中等學校英文第二冊課本教材（Lesson 4 <em>Malala: Stronger Than Violence</em>、Lesson 5 <em>Walt Disney's Inspirational Message: Dare to Dream</em>、Lesson 6 <em>No Wonder He's Special</em>、Review 2 <em>Note How to Really Learn</em>）。本頁為互動式自主學習複習筆記。
+    </footer>
+  </div>
+
+  <api-shim></api-shim>
+  <script>
+    // =========================================================================
+    // 1. COMPLETE DATA BANK (100% Grounded in Lung Teng B2 Textbook Sources)
+    // =========================================================================
+    const VOCAB_DATA = [
+      // Lesson 4 Words (20)
+      { id: `L4-W1`, lesson: `L4`, type: `word`, term: `female`, pos: `adj. / n. [C]`, phonetic: `[ˈfimel]`, meaning: `女性的；女性`, derived: `反義：male (男性的；男性)`, example: `Malala became an advocate of equal rights for female students.` },
+      { id: `L4-W2`, lesson: `L4`, type: `word`, term: `region`, pos: `n. [C]`, phonetic: `[ˈridʒən]`, derived: `regional adj. 地區的`, meaning: `地區`, example: `Unfortunately, this region was under Taliban rule from 2007 to 2009.` },
+      { id: `L4-W3`, lesson: `L4`, type: `word`, term: `forbid`, pos: `vt.`, phonetic: `[fɚˈbɪd]`, derived: `三態：forbid - forbade - forbidden - forbidding`, meaning: `禁止`, example: `The girls there were forbidden to go to school.` },
+      { id: `L4-W4`, lesson: `L4`, type: `word`, term: `continue`, pos: `vt.`, phonetic: `[kənˈtɪnju]`, derived: `continuous adj. 持續不斷的`, meaning: `繼續`, example: `Malala was one of the few girls to continue her education.` },
+      { id: `L4-W5`, lesson: `L4`, type: `word`, term: `education`, pos: `n. [U]`, phonetic: `[ˌɛdʒuˈkeʃən]`, derived: `educational adj. 教育的；educate vt. 教育`, meaning: `教育`, example: `Malala believed that no one could take away others' right to education.` },
+      { id: `L4-W6`, lesson: `L4`, type: `word`, term: `principal`, pos: `n. [C] / adj.`, phonetic: `[ˈprɪnsəpḷ]`, derived: `adj. 主要的（僅置於名詞前）`, meaning: `校長；主要的`, example: `Her father, a school principal, urged her to keep studying.` },
+      { id: `L4-W7`, lesson: `L4`, type: `word`, term: `equal`, pos: `adj. / vt.`, phonetic: `[ˈikwəl]`, derived: `equality n. [U] 平等；vt. 等於`, meaning: `相等的；同樣的`, example: `Everyone should enjoy equal rights and be treated the same.` },
+      { id: `L4-W8`, lesson: `L4`, type: `word`, term: `control`, pos: `vt. / n. [U]`, phonetic: `[kənˈtrol]`, derived: `動詞變化：controlled - controlled - controlling`, meaning: `控制`, example: `She started writing blogs about life in a society controlled by the Taliban.` },
+      { id: `L4-W9`, lesson: `L4`, type: `word`, term: `annoy`, pos: `vt.`, phonetic: `[əˈnɔɪ]`, derived: `annoyed adj. 感到惱怒的；annoying adj. 惱人的`, meaning: `惱怒；使人生氣`, example: `Although this annoyed Taliban leaders, she continued speaking out.` },
+      { id: `L4-W10`, lesson: `L4`, type: `word`, term: `threaten`, pos: `vt.`, phonetic: `[ˈθrɛtṇ]`, derived: `threat n. [C] 威脅；恐嚇`, meaning: `威脅；恐嚇`, example: `When her story became known, the Taliban threatened to kill her.` },
+      { id: `L4-W11`, lesson: `L4`, type: `word`, term: `surgery`, pos: `n. [U]`, phonetic: `[ˈsɝdʒərɪ]`, derived: `perform surgery 動手術`, meaning: `外科手術`, example: `Miraculously, the brave girl survived surgery at a local hospital.` },
+      { id: `L4-W12`, lesson: `L4`, type: `word`, term: `recover`, pos: `vi.`, phonetic: `[rɪˈkʌvɚ]`, derived: `recovery n. [C] 恢復；復甦`, meaning: `康復（from）`, example: `For several months, she had trouble speaking but eventually recovered in full.` },
+      { id: `L4-W13`, lesson: `L4`, type: `word`, term: `sign`, pos: `vt.`, phonetic: `[saɪn]`, derived: `signature n. 簽名`, meaning: `簽名；簽署`, example: `Over two million supporters worldwide signed a statement calling for equal education.` },
+      { id: `L4-W14`, lesson: `L4`, type: `word`, term: `persuade`, pos: `vt.`, phonetic: `[pɚˈswed]`, derived: `persuasion n. [U] 說服；persuasive adj. 有說服力的`, meaning: `說服；勸說（persuade sb. to VR）`, example: `All this attention persuaded the Pakistani government to adopt a new policy.` },
+      { id: `L4-W15`, lesson: `L4`, type: `word`, term: `adopt`, pos: `vt.`, phonetic: `[əˈdɑpt]`, derived: `區辨：adapt (適應；改編) vs. adopt (採納；領養)`, meaning: `採納；採用；收養`, example: `The government adopted a new policy ensuring equal educational rights.` },
+      { id: `L4-W16`, lesson: `L4`, type: `word`, term: `policy`, pos: `n. [C]`, phonetic: `[ˈpɑləsɪ]`, derived: `複數：policies`, meaning: `政策`, example: `The amount of waste dropped since the government adopted stricter policies.` },
+      { id: `L4-W17`, lesson: `L4`, type: `word`, term: `ensure`, pos: `vt.`, phonetic: `[ɪnˈʃʊr]`, derived: `近義：make sure / guarantee`, meaning: `保證；確保`, example: `A new law will ensure that every child gets proper care and education.` },
+      { id: `L4-W18`, lesson: `L4`, type: `word`, term: `establish`, pos: `vt.`, phonetic: `[əˈstæblɪʃ]`, derived: `establishment n. [U] 建立；創設`, meaning: `建立；創設`, example: `Soon afterward, the Malala Fund was established to help empower girls.` },
+      { id: `L4-W19`, lesson: `L4`, type: `word`, term: `honor`, pos: `n. / vt.`, phonetic: `[ˈɑnɚ]`, derived: `honorable adj. 值得敬佩的；英式拼法 honour`, meaning: `榮譽；榮幸；表揚`, example: `At the age of seventeen, she was the youngest person ever to receive this great honor.` },
+      { id: `L4-W20`, lesson: `L4`, type: `word`, term: `weapon`, pos: `n. [C]`, phonetic: `[ˈwɛpən]`, derived: `deadly weapons 致命武器`, meaning: `手段；武器`, example: `Let us pick up our books and pens. They are our most powerful weapons.` },
+      // Lesson 4 Idioms (5)
+      { id: `L4-I1`, lesson: `L4`, type: `idiom`, term: `take notice (of...)`, pos: `phr.`, phonetic: `片語`, derived: `常與 no one / without 搭配`, meaning: `注意；在意`, example: `None of the fourteen female students took notice when their school truck stopped.` },
+      { id: `L4-I2`, lesson: `L4`, type: `idiom`, term: `blow up`, pos: `phr.`, phonetic: `片語`, derived: `blow - blew - blown`, meaning: `炸毀`, example: `Over one hundred girls' schools were blown up.` },
+      { id: `L4-I3`, lesson: `L4`, type: `idiom`, term: `take away`, pos: `phr.`, phonetic: `片語`, derived: `take - took - taken`, meaning: `拿走；剝奪`, example: `Malala believed that no one could take away others' right to education.` },
+      { id: `L4-I4`, lesson: `L4`, type: `idiom`, term: `speak out`, pos: `phr.`, phonetic: `片語`, derived: `speak out against 公開反對`, meaning: `發聲；公開發表意見`, example: `She continued speaking out about girls' educational rights.` },
+      { id: `L4-I5`, lesson: `L4`, type: `idiom`, term: `call for`, pos: `phr.`, phonetic: `片語`, derived: `近義：appeal for / demand`, meaning: `呼籲；要求`, example: `Supporters signed a statement calling for equal education in Pakistan.` },
+
+      // Lesson 5 Words (22)
+      { id: `L5-W1`, lesson: `L5`, type: `word`, term: `dare`, pos: `vi.`, phonetic: `[dɛr]`, derived: `dare to VR 敢做某事`, meaning: `敢`, example: `Dare to Dream — No one dares to walk alone in this area at night.` },
+      { id: `L5-W2`, lesson: `L5`, type: `word`, term: `entertain`, pos: `vt.`, phonetic: `[ˌɛntɚˈten]`, derived: `entertainment n. [U] 娛樂`, meaning: `娛樂`, example: `The company has entertained billions of imaginative souls around the world.` },
+      { id: `L5-W3`, lesson: `L5`, type: `word`, term: `imaginative`, pos: `adj.`, phonetic: `[ɪˈmædʒəˌnetɪv]`, derived: `imagine vt.；imagination n.；imaginary adj. 虛構的`, meaning: `有想像力的`, example: `J. K. Rowling is an imaginative writer who has written many fantasy stories.` },
+      { id: `L5-W4`, lesson: `L5`, type: `word`, term: `consistently`, pos: `adv.`, phonetic: `[kənˈsɪstəntlɪ]`, derived: `consistent adj. 始終如一的；持續的`, meaning: `持續地`, example: `The company has consistently brought the public a positive message.` },
+      { id: `L5-W5`, lesson: `L5`, type: `word`, term: `convey`, pos: `vt.`, phonetic: `[kənˈve]`, derived: `convey a message 傳達訊息`, meaning: `傳達`, example: `This message is conveyed in many Disney songs.` },
+      { id: `L5-W6`, lesson: `L5`, type: `word`, term: `parade`, pos: `n. [C]`, phonetic: `[pəˈred]`, derived: `hold a parade 舉辦遊行`, meaning: `遊行`, example: `The song has been performed during parades at Disney theme parks.` },
+      { id: `L5-W7`, lesson: `L5`, type: `word`, term: `request`, pos: `n. [C] / vt.`, phonetic: `[rɪˈkwɛst]`, derived: `turn down a request 拒絕請求`, meaning: `要求`, example: `If your heart is in your dreams, no request is too extreme.` },
+      { id: `L5-W8`, lesson: `L5`, type: `word`, term: `extreme`, pos: `adj.`, phonetic: `[ɪkˈstrim]`, derived: `extremely adv. 極度地`, meaning: `極端的；過分的`, example: `Barry has rather extreme views on gun control.` },
+      { id: `L5-W9`, lesson: `L5`, type: `word`, term: `achieve`, pos: `vt.`, phonetic: `[əˈtʃiv]`, derived: `achievement n. [C, U] 成就`, meaning: `達成`, example: `Nothing in the world can stop you from achieving it.` },
+      { id: `L5-W10`, lesson: `L5`, type: `word`, term: `passion`, pos: `n. [C, U]`, phonetic: `[ˈpæʃən]`, derived: `passionate adj. 熱情的（about）`, meaning: `熱愛；熱情`, example: `As a young man, he had a great passion for drawing.` },
+      { id: `L5-W11`, lesson: `L5`, type: `word`, term: `hardship`, pos: `n. [C, U]`, phonetic: `[ˈhɑrdʃɪp]`, derived: `face/overcome hardships`, meaning: `艱難`, example: `Though he met with a lot of failures and hardships, he kept trying.` },
+      { id: `L5-W12`, lesson: `L5`, type: `word`, term: `poverty`, pos: `n. [U]`, phonetic: `[ˈpɑvɚtɪ]`, derived: `live in extreme poverty`, meaning: `貧窮`, example: `Walt Disney even experienced poverty before creating Mickey Mouse.` },
+      { id: `L5-W13`, lesson: `L5`, type: `word`, term: `rescue`, pos: `vt. / n. [U]`, phonetic: `[ˈrɛskju]`, derived: `come to one's rescue 前來營救`, meaning: `解救；救援`, example: `He created Mickey Mouse, which rescued his career.` },
+      { id: `L5-W14`, lesson: `L5`, type: `word`, term: `career`, pos: `n. [C]`, phonetic: `[kəˈrɪr]`, derived: `begin one's career as...`, meaning: `事業；職業生涯`, example: `Not many people know that the singer began his career as a drummer.` },
+      { id: `L5-W15`, lesson: `L5`, type: `word`, term: `weave`, pos: `vt. / vi.`, phonetic: `[wiv]`, derived: `三態：weave - wove - woven - weaving`, meaning: `編織`, example: `It helped him build a kingdom that has woven dreams for countless people.` },
+      { id: `L5-W16`, lesson: `L5`, type: `word`, term: `deliver`, pos: `vt.`, phonetic: `[dɪˈlɪvɚ]`, derived: `delivery n. [U, C] 遞送`, meaning: `傳達；表達；遞送`, example: `Later animations such as Mulan and Zootopia delivered similarly inspirational messages.` },
+      { id: `L5-W17`, lesson: `L5`, type: `word`, term: `disadvantage`, pos: `n. [C]`, phonetic: `[ˌdɪsədˈvæntɪdʒ]`, derived: `反義：advantage 優勢；at a disadvantage 處於劣勢`, meaning: `劣勢；不利條件`, example: `Despite the disadvantages of being female in a traditional society, Mulan saves her country.` },
+      { id: `L5-W18`, lesson: `L5`, type: `word`, term: `overcome`, pos: `vt.`, phonetic: `[ˌovɚˈkʌm]`, derived: `三態：overcome - overcame - overcome - overcoming`, meaning: `克服`, example: `Mulan overcomes many gender-related difficulties.` },
+      { id: `L5-W19`, lesson: `L5`, type: `word`, term: `attitude`, pos: `n. [C]`, phonetic: `[ˈætəˌtjud]`, derived: `take a positive attitude toward...`, meaning: `態度`, example: `It shows us her dedication and never-say-die attitude.` },
+      { id: `L5-W20`, lesson: `L5`, type: `word`, term: `challenge`, pos: `n. [C] / vt.`, phonetic: `[ˈtʃælɪndʒ]`, derived: `take on a challenge 接受挑戰；vt. 質疑`, meaning: `挑戰；質疑`, example: `Judy, the cute little bunny in Zootopia, faces challenges when proving herself.` },
+      { id: `L5-W21`, lesson: `L5`, type: `word`, term: `obstacle`, pos: `n. [C]`, phonetic: `[ˈɑbstəkḷ]`, derived: `obstacles to (doing) sth.`, meaning: `障礙`, example: `She finally manages to overcome all the obstacles along the way.` },
+      { id: `L5-W22`, lesson: `L5`, type: `word`, term: `fulfill`, pos: `vt.`, phonetic: `[fʊlˈfɪl]`, derived: `英式拼法 fulfil；fulfill one's dream`, meaning: `實現`, example: `What we need to do is make every possible effort to fulfill our dreams.` },
+      // Lesson 5 Idioms (7)
+      { id: `L5-I1`, lesson: `L5`, type: `idiom`, term: `in addition to`, pos: `phr.`, phonetic: `片語`, derived: `後接名詞或 V-ing`, meaning: `除…之外（還有）`, example: `In addition to entertainment, the company has consistently brought a positive message.` },
+      { id: `L5-I2`, lesson: `L5`, type: `idiom`, term: `for instance`, pos: `phr.`, phonetic: `片語`, derived: `近義：for example`, meaning: `例如`, example: `Take the song "When You Wish Upon a Star," for instance.` },
+      { id: `L5-I3`, lesson: `L5`, type: `idiom`, term: `ever since`, pos: `phr.`, phonetic: `片語`, derived: `主句常搭配現在完成式`, meaning: `從那時起`, example: `Ever since the song was introduced in 1940, it has been played before opening credits.` },
+      { id: `L5-I4`, lesson: `L5`, type: `idiom`, term: `in other words`, pos: `phr.`, phonetic: `片語`, derived: `近義：that is (to say)`, meaning: `換句話說`, example: `In other words, nothing in the world can stop you from achieving it.` },
+      { id: `L5-I5`, lesson: `L5`, type: `idiom`, term: `meet with`, pos: `phr.`, phonetic: `片語`, derived: `meet - met - met`, meaning: `遭遇到（尤指困難、失敗）`, example: `Though he met with a lot of failures and hardships, he never gave up.` },
+      { id: `L5-I6`, lesson: `L5`, type: `idiom`, term: `spring into action`, pos: `phr.`, phonetic: `片語`, derived: `spring - sprang - sprung`, meaning: `立即行動`, example: `She overcomes all obstacles by springing into action and never giving up.` },
+      { id: `L5-I7`, lesson: `L5`, type: `idiom`, term: `in turn`, pos: `phr.`, phonetic: `片語`, derived: `兩大義：(1) 繼而 (2) 依序`, meaning: `繼而；依序`, example: `Disney was built upon dreams, and in turn it tells us we can make dreams come true.` },
+
+      // Lesson 6 Words (19)
+      { id: `L6-W1`, lesson: `L6`, type: `word`, term: `awful`, pos: `adj.`, phonetic: `[ˈɔfəl]`, derived: `近義：terrible`, meaning: `糟糕的`, example: `The first months of school were awful for Auggie.` },
+      { id: `L6-W2`, lesson: `L6`, type: `word`, term: `stare`, pos: `n. [C] / vi.`, phonetic: `[stɛr]`, derived: `stare at 盯著…看`, meaning: `盯著看`, example: `The stares and whispers continued, and rude kids kept teasing him.` },
+      { id: `L6-W3`, lesson: `L6`, type: `word`, term: `whisper`, pos: `n. [C] / vt. / vi.`, phonetic: `[ˈhwɪspɚ]`, derived: `talk in a whisper 小聲說話`, meaning: `耳語；小聲說話`, example: `Lily leaned over to whisper the password to Eric.` },
+      { id: `L6-W4`, lesson: `L6`, type: `word`, term: `rude`, pos: `adj.`, phonetic: `[rud]`, derived: `be rude to sb. 對某人無禮`, meaning: `無禮的`, example: `Rude kids like Julian kept teasing him.` },
+      { id: `L6-W5`, lesson: `L6`, type: `word`, term: `tease`, pos: `vt.`, phonetic: `[tiz]`, derived: `tease sb. about sth.`, meaning: `嘲弄；取笑`, example: `Friends often tease Clint about his red hair.` },
+      { id: `L6-W6`, lesson: `L6`, type: `word`, term: `purposely`, pos: `adv.`, phonetic: `[ˈpɝpəslɪ]`, derived: `purpose n. [C] 目的；on purpose 故意地`, meaning: `故意地；蓄意地`, example: `Some even purposely avoided him, thinking that ugliness was contagious.` },
+      { id: `L6-W7`, lesson: `L6`, type: `word`, term: `scary`, pos: `adj.`, phonetic: `[ˈskɛrɪ]`, derived: `scare vt. 使害怕；scared adj. 感到害怕的`, meaning: `可怕的`, example: `With the scary mask on, he walked with his head held high.` },
+      { id: `L6-W8`, lesson: `L6`, type: `word`, term: `overhear`, pos: `vt.`, phonetic: `[ˌovɚˈhɪr]`, derived: `三態：overhear - overheard - overheard`, meaning: `無意中聽到`, example: `His good mood abruptly changed when he overheard Jack talking to Julian.` },
+      { id: `L6-W9`, lesson: `L6`, type: `word`, term: `incident`, pos: `n. [C]`, phonetic: `[ˈɪnsədənt]`, derived: `常指負面、意外的事件`, meaning: `事件`, example: `The incident was so heartbreaking that he hardly spoke to Jack for a month.` },
+      { id: `L6-W10`, lesson: `L6`, type: `word`, term: `cruel`, pos: `adj.`, phonetic: `[ˈkruəl]`, derived: `cruelty n. [U] 殘忍；be cruel to 對…殘忍`, meaning: `殘忍的`, example: `When Jack realized Auggie had overheard his cruel words, he felt terrible.` },
+      { id: `L6-W11`, lesson: `L6`, type: `word`, term: `pretend`, pos: `vt. / vi.`, phonetic: `[prɪˈtɛnd]`, derived: `pretend to VR / pretend that...`, meaning: `假裝`, example: `At first, he had only pretended to befriend the new kid.` },
+      { id: `L6-W12`, lesson: `L6`, type: `word`, term: `genuinely`, pos: `adv.`, phonetic: `[ˈdʒɛnjuɪnlɪ]`, derived: `genuine adj. 真正的`, meaning: `真誠地；真正地`, example: `Now he genuinely wanted to hang out with him and be his friend.` },
+      { id: `L6-W13`, lesson: `L6`, type: `word`, term: `apologize`, pos: `vi.`, phonetic: `[əˈpɑləˌdʒaɪz]`, derived: `apology n. [C, U] 道歉；apologize to sb. for sth.`, meaning: `道歉`, example: `Jack, therefore, apologized in order to make peace.` },
+      { id: `L6-W14`, lesson: `L6`, type: `word`, term: `gradually`, pos: `adv.`, phonetic: `[ˈɡrædʒuəlɪ]`, derived: `gradual adj. 逐漸的`, meaning: `逐漸地`, example: `Gradually, many of Auggie's classmates began treating him better.` },
+      { id: `L6-W15`, lesson: `L6`, type: `word`, term: `approach`, pos: `vi. / vt. / n.`, phonetic: `[əˈprotʃ]`, derived: `及物動詞，不加介系詞 to`, meaning: `接近`, example: `As summer approached, Auggie joined the class for a three-day camping trip.` },
+      { id: `L6-W16`, lesson: `L6`, type: `word`, term: `absolutely`, pos: `adv.`, phonetic: `[ˈæbsəˌlutlɪ]`, derived: `absolute adj. 明確的；無疑的`, meaning: `非常地；完全地`, example: `The trip was absolutely wonderful until the second night.` },
+      { id: `L6-W17`, lesson: `L6`, type: `word`, term: `defend`, pos: `vt.`, phonetic: `[dɪˈfɛnd]`, derived: `defense n. [U] 防禦；辯護（英式 defence）`, meaning: `保護；防禦`, example: `Even some of the mean kids in his own class helped to defend him.` },
+      { id: `L6-W18`, lesson: `L6`, type: `word`, term: `bully`, pos: `n. [C] / vt.`, phonetic: `[ˈbʊlɪ]`, derived: `動詞變化：bullied - bullied - bullying`, meaning: `霸凌者；霸凌`, example: `At least everyone got away from those bullies.` },
+      { id: `L6-W19`, lesson: `L6`, type: `word`, term: `ceremony`, pos: `n. [C]`, phonetic: `[ˈsɛrəˌmonɪ]`, derived: `opening/year-end ceremony`, meaning: `典禮`, example: `At the year-end ceremony, no one minded being close to him.` },
+      // Lesson 6 Idioms (8)
+      { id: `L6-I1`, lesson: `L6`, type: `idiom`, term: `fit in`, pos: `phr.`, phonetic: `片語`, derived: `fit in (at/with...)`, meaning: `融入（環境、團體等）`, example: `Auggie wondered if he'd ever fit in.` },
+      { id: `L6-I2`, lesson: `L6`, type: `idiom`, term: `around the corner`, pos: `phr.`, phonetic: `片語`, derived: `just around the corner`, meaning: `即將到來`, example: `Besides, Halloween was just around the corner.` },
+      { id: `L6-I3`, lesson: `L6`, type: `idiom`, term: `sick to one's stomach`, pos: `phr.`, phonetic: `片語`, derived: `feel sick to one's stomach`, meaning: `非常難過；反胃難受`, example: `Auggie, shocked and sick to his stomach, ran all the way home in tears.` },
+      { id: `L6-I4`, lesson: `L6`, type: `idiom`, term: `make peace`, pos: `phr.`, phonetic: `片語`, derived: `make peace (with sb.)`, meaning: `和好`, example: `Jack apologized in order to make peace.` },
+      { id: `L6-I5`, lesson: `L6`, type: `idiom`, term: `make fun of`, pos: `phr.`, phonetic: `片語`, derived: `近義：tease / laugh at`, meaning: `嘲笑；揶揄`, example: `One of the big kids shone his flashlight in Auggie's face and started to make fun of him.` },
+      { id: `L6-I6`, lesson: `L6`, type: `idiom`, term: `at least`, pos: `phr.`, phonetic: `片語`, derived: `反義：at most 至多`, meaning: `至少`, example: `They couldn't fight the bigger kids, but at least everyone got away from those bullies.` },
+      { id: `L6-I7`, lesson: `L6`, type: `idiom`, term: `apart from`, pos: `phr.`, phonetic: `片語`, derived: `近義：besides / in addition to`, meaning: `除了…之外`, example: `Apart from his classmates, other kids in school also acted differently.` },
+      { id: `L6-I8`, lesson: `L6`, type: `idiom`, term: `...not...anymore`, pos: `phr.`, phonetic: `片語`, derived: `同義：no longer`, meaning: `再也沒有；不再`, example: `The others weren't scared of looking at him anymore.` },
+
+      // Review 2 Words (18)
+      { id: `R2-W1`, lesson: `R2`, type: `word`, term: `gain`, pos: `vt.`, phonetic: `[ɡen]`, derived: `gain new knowledge`, meaning: `獲得`, example: `Note-taking provides a great way to gain new knowledge.` },
+      { id: `R2-W2`, lesson: `R2`, type: `word`, term: `system`, pos: `n. [C]`, phonetic: `[ˈsɪstəm]`, derived: `note-taking system`, meaning: `方法；制度`, example: `Maybe you should adopt the Cornell note-taking system.` },
+      { id: `R2-W3`, lesson: `R2`, type: `word`, term: `technique`, pos: `n. [C]`, phonetic: `[tɛkˈnik]`, derived: `近義：method / skill`, meaning: `技術；技巧`, example: `It is a famous note-taking technique researched by a professor.` },
+      { id: `R2-W4`, lesson: `R2`, type: `word`, term: `propose`, pos: `vt.`, phonetic: `[prəˈpoz]`, derived: `proposal n. 提議`, meaning: `提議`, example: `The technique was first researched and proposed by a Cornell University professor.` },
+      { id: `R2-W5`, lesson: `R2`, type: `word`, term: `professor`, pos: `n. [C]`, phonetic: `[prəˈfɛsɚ]`, derived: `education professor`, meaning: `教授`, example: `It was proposed by a Cornell University education professor.` },
+      { id: `R2-W6`, lesson: `R2`, type: `word`, term: `require`, pos: `vt.`, phonetic: `[rɪˈkwaɪr]`, derived: `require + V-ing / require sb. to VR`, meaning: `需要；要求`, example: `The system typically requires breaking your page up into three parts.` },
+      { id: `R2-W7`, lesson: `R2`, type: `word`, term: `summary`, pos: `n. [C]`, phonetic: `[ˈsʌmərɪ]`, derived: `summarize vt. 總結`, meaning: `摘要`, example: `Come up with a summary of the main ideas in your own words.` },
+      { id: `R2-W8`, lesson: `R2`, type: `word`, term: `column`, pos: `n. [C]`, phonetic: `[ˈkɑləm]`, derived: `wide/smaller column`, meaning: `（頁面上的）欄`, example: `The Notes Section is a wide column on the right side of the page.` },
+      { id: `R2-W9`, lesson: `R2`, type: `word`, term: `information`, pos: `n. [U]`, phonetic: `[ˌɪnfɚˈmeʃən]`, derived: `不可數名詞，不加 s`, meaning: `資訊`, example: `The Notes Section is where you can record important information during class.` },
+      { id: `R2-W10`, lesson: `R2`, type: `word`, term: `abbreviation`, pos: `n. [C]`, phonetic: `[əˌbrivɪˈeʃən]`, derived: `abbreviate vt. 縮寫`, meaning: `縮寫`, example: `Restrict yourself to using short phrases, symbols, and abbreviations.` },
+      { id: `R2-W11`, lesson: `R2`, type: `word`, term: `blank`, pos: `adj.`, phonetic: `[blæŋk]`, derived: `remain blank 保持空白`, meaning: `空白的`, example: `The smaller column on the left should remain blank during class.` },
+      { id: `R2-W12`, lesson: `R2`, type: `word`, term: `reserve`, pos: `vt.`, phonetic: `[rɪˈzɝv]`, derived: `be reserved for 保留給…`, meaning: `保留`, example: `It is reserved for the Cues Section, which should be completed within a day or two.` },
+      { id: `R2-W13`, lesson: `R2`, type: `word`, term: `recite`, pos: `vt.`, phonetic: `[rɪˈsaɪt]`, derived: `recitation n. 背誦`, meaning: `背誦`, example: `Cover your Notes Section and challenge yourself to recite important information.` },
+      { id: `R2-W14`, lesson: `R2`, type: `word`, term: `guide`, pos: `n. [C]`, phonetic: `[ɡaɪd]`, derived: `use...as a guide`, meaning: `指引的事物`, example: `Challenge yourself to recite using the cues as a guide.` },
+      { id: `R2-W15`, lesson: `R2`, type: `word`, term: `involve`, pos: `vt.`, phonetic: `[ɪnˈvɑlv]`, derived: `involve + V-ing`, meaning: `包含；涉及`, example: `Reflecting normally involves thinking about the new information.` },
+      { id: `R2-W16`, lesson: `R2`, type: `word`, term: `review`, pos: `vt.`, phonetic: `[rɪˈvju]`, derived: `review your notes`, meaning: `複習`, example: `All you have to do is review your notes on a weekly basis.` },
+      { id: `R2-W17`, lesson: `R2`, type: `word`, term: `frequent`, pos: `adj.`, phonetic: `[ˈfrikwənt]`, derived: `frequently adv. 頻繁地；frequency n. 頻率`, meaning: `頻繁的`, example: `Frequent reviews will ensure that you remember the information longer.` },
+      { id: `R2-W18`, lesson: `R2`, type: `word`, term: `process`, pos: `vt.`, phonetic: `[ˈprɑsɛs]`, derived: `process information 處理資訊`, meaning: `處理（資訊、資料等）`, example: `It teaches you to process any new information more quickly and effectively.` },
+      // Review 2 Phrases (4)
+      { id: `R2-I1`, lesson: `R2`, type: `idiom`, term: `break...up`, pos: `phr.`, phonetic: `片語`, derived: `break A up into B`, meaning: `分開；拆成`, example: `The Cornell system requires breaking your page up into three parts.` },
+      { id: `R2-I2`, lesson: `R2`, type: `idiom`, term: `fill in`, pos: `phr.`, phonetic: `片語`, derived: `fill in the blank / form`, meaning: `填寫`, example: `Fill this in after you reflect on what you've learned.` },
+      { id: `R2-I3`, lesson: `R2`, type: `idiom`, term: `on a/an...basis`, pos: `phr.`, phonetic: `片語`, derived: `on a daily/weekly/yearly basis`, meaning: `每…（日、週、年等）`, example: `Review your notes on a weekly basis.` },
+      { id: `R2-I4`, lesson: `R2`, type: `idiom`, term: `make use of`, pos: `phr.`, phonetic: `片語`, derived: `近義：use / take advantage of`, meaning: `利用`, example: `Continuing to make use of this system will help you succeed.` }
+    ];
+
+    const CHECKLIST_ITEMS = [
+      { id: `chk-provide`, label: `provide (L1)`, lesson: `L4` },
+      { id: `chk-succeed`, label: `succeed (L1)`, lesson: `L4` },
+      { id: `chk-describe`, label: `describe (L3)`, lesson: `L4` },
+      { id: `chk-principal`, label: `principal (L4)`, lesson: `L4` },
+      { id: `chk-adopt`, label: `adopt (L4)`, lesson: `L4` },
+      { id: `chk-ensure`, label: `ensure (L4)`, lesson: `L4` },
+      { id: `chk-continue`, label: `continue (L4)`, lesson: `L4` },
+      { id: `chk-education`, label: `education (L4)`, lesson: `L4` },
+      { id: `chk-convey`, label: `convey (L5)`, lesson: `L5` },
+      { id: `chk-challenge`, label: `challenge (L5)`, lesson: `L5` },
+      { id: `chk-career`, label: `career (L5)`, lesson: `L5` },
+      { id: `chk-patterns`, label: `6大核心句型全通關`, lesson: `L6` }
+    ];
+
+    const GRAMMAR_MODULES = [
+      {
+        id: `G1`,
+        lesson: `L4`,
+        title: `分詞片語後位修飾（形容詞子句簡化）`,
+        formula: `N(,) + V-ing（主動）/ p.p.（被動）`,
+        explanation: `由關係子句簡化而來，置於名詞後作修飾。步驟：(1) 省略關代 who/which/that；(2) 主動動作改 V-ing，被動改 p.p.（若有 be 動詞直接省略）；(3) 否定時在分詞前加 not；(4) 原為非限定用法時逗點必須保留。`,
+        trap: `考點陷阱：先找主要動詞！若句子已經有主要動詞，後面修飾名詞的動詞就必須簡化為分詞（V-ing / p.p.），切勿重複使用原形或過去式動詞。`,
+        examples: [
+          `Suddenly, two men wearing masks hopped onto the truck. (who wore masks)`,
+          `...life in a society controlled by the Taliban. (which was controlled...)`,
+          `The taxi driver, not realizing one of his tires had gone flat, continued driving.`
+        ],
+        drills: [
+          {
+            id: `G1-D1`,
+            type: `choice`,
+            prompt: `1. Pictures ______ by Vincent van Gogh usually sell for millions of dollars.`,
+            options: [`painting`, `painted`, `which painted`, `were painted`],
+            answer: `painted`,
+            explain: `Pictures（畫作）是被畫（被動），且句中已有主要動詞 sell，故將 which were painted 簡化為 painted。`
+          },
+          {
+            id: `G1-D2`,
+            type: `input`,
+            prompt: `2. 句型改寫：Students who don't pass the final exam will need to retake this course. ➔ Students ______ ______ the final exam will need to retake this course.（填入兩字）`,
+            answer: `not passing`,
+            explain: `否定形容詞子句簡化為分詞片語時，省略 who 並將 don't pass 改為 not passing（not 放分詞前）。`
+          }
+        ]
+      },
+      {
+        id: `G2`,
+        lesson: `L4`,
+        title: `做某事有困難／麻煩`,
+        formula: `S + have difficulty / trouble / problems / a hard time + (in) + V-ing`,
+        explanation: `表示「做某事有困難、經歷辛苦」，介系詞 in 通常省略，後方動詞一律使用動名詞 (V-ing)。可用 great / little / much / no 修飾 difficulty 或 trouble。`,
+        trap: `考點陷阱：即使沒有看到介系詞 in，後面也只能接 V-ing，絕對不能接 to VR（錯：have trouble to speak）。`,
+        examples: [
+          `Many Pakistani women got married in their teens and had great difficulty attending school.`,
+          `For several months, Malala had trouble speaking.`
+        ],
+        drills: [
+          {
+            id: `G2-D1`,
+            type: `choice`,
+            prompt: `1. Tourists usually have a hard time ______ train tickets to Hualien during holidays.`,
+            options: [`get`, `to get`, `getting`, `gotten`],
+            answer: `getting`,
+            explain: `have a hard time + (in) + V-ing，固定接動名詞 getting。`
+          },
+          {
+            id: `G2-D2`,
+            type: `input`,
+            prompt: `2. 動詞變化：The shy girl has problems ______ (speak) in front of crowds.`,
+            answer: `speaking`,
+            explain: `have problems + (in) + V-ing，故填入 speaking。`
+          }
+        ]
+      },
+      {
+        id: `G3`,
+        lesson: `L5`,
+        title: `強調關鍵行動句型（All / What 分裂句）`,
+        formula: `All (that) / What + S + want to / need to / have to / can / should + do + is / was + (to) VR`,
+        explanation: `用來強調「某人想做／需要做／必須做的事就是…」。All (that)... 或 What... 為名詞子句當主詞，視為單數，be 動詞用 is 或 was；後面補語為「(to) + 原形動詞」，在美式英語及課文中常將 to 省略（尤其前面出現過 do 時）。`,
+        trap: `考點陷阱：(1) 看到 All...do 就以為後面接複數 are —— 錯！All 表「全部的事情」視為單數，用 is / was；(2) is 後面可接 VR（省略 to）或 to VR，不可接 V-ing 誤當進行式。`,
+        examples: [
+          `All Walt Disney wanted to do was keep trying.`,
+          `What we need to do is wish upon a star and make every possible effort to fulfill our dreams.`
+        ],
+        drills: [
+          {
+            id: `G3-D1`,
+            type: `choice`,
+            prompt: `1. In a fire, what you have to do ______ calm and try to escape.`,
+            options: [`are keep`, `is keep`, `is keeping`, `are to keep`],
+            answer: `is keep`,
+            explain: `what you have to do 為主詞（單數），動詞用 is，後方接 (to) VR，故選 is keep。`
+          },
+          {
+            id: `G3-D2`,
+            type: `input`,
+            prompt: `2. 依句型填入適當動詞：All that Disney wanted to do was ______ (keep) trying.`,
+            answer: `keep`,
+            explain: `All...do + be + (to) VR，填入原形 keep（或 to keep 亦可，此題標準課文句為 keep）。`
+          }
+        ]
+      },
+      {
+        id: `G4`,
+        lesson: `L5`,
+        title: `非限定關係子句（補充說明前方整句）`,
+        formula: `主要子句, which + V / S + V...`,
+        explanation: `關係代名詞 which 置於逗號之後，可指代「前面整個子句所描述的事件或概念」，對其提出進一步說明、結果或評論。因其代表一件事（單數概念），後方動詞若作主詞時須用單數動詞（如 leads, shows, makes）。`,
+        trap: `考點陷阱：逗號後面「絕對不能用 that」代替 which！也不可以用 what（what 不能放逗號後當關代）。另外若先行詞為整件事，動詞要加 s（單數）或過去式。`,
+        examples: [
+          `Walt Disney created Mickey Mouse, which rescued his career and helped him build a kingdom.`,
+          `Mulan overcomes many gender-related difficulties, which shows us her dedication.`
+        ],
+        drills: [
+          {
+            id: `G4-D1`,
+            type: `choice`,
+            prompt: `1. Peter has lied to me many times, ______ it hard for me to believe him.`,
+            options: [`that makes`, `which make`, `which makes`, `what makes`],
+            answer: `which makes`,
+            explain: `逗號後須用 which 指代「Peter 對我說謊很多次」這件事（單數），動詞須為單數 makes，且逗號後不可用 that 或 what。`
+          },
+          {
+            id: `G4-D2`,
+            type: `input`,
+            prompt: `2. 填入正確關代：It's freezing cold outside, ______ is why Jack is wearing a knit cap and a scarf.`,
+            answer: `which`,
+            explain: `逗號後代替前面整個子句，填入 which。`
+          }
+        ]
+      },
+      {
+        id: `G5`,
+        lesson: `L6`,
+        title: `with 附帶狀況結構（描述伴隨動作或狀態）`,
+        formula: `with + O + V-ing（主動進行）/ p.p.（被動完成）/ adj. / prep.`,
+        explanation: `用來補充說明主要動作發生時「伴隨的動作、身體姿態、表情或原因」。若置於句首須以逗點與主要子句隔開；置於句尾則逗點可有可無。判斷 V-ing 或 p.p. 的關鍵是看「受詞 (O)」與後方動作是主動還是被動關係。`,
+        trap: `考點陷阱：eyes closed（眼睛被閉上，p.p.）、head held high（頭被抬得高高的，p.p.）、arms crossed（雙臂交叉，p.p.）都是身體部位被動的常見必考搭配；而 tears rolling down（眼淚流下來）、hair blowing（頭髮吹拂）則為主動 V-ing！`,
+        examples: [
+          `Auggie walked with his head held high through the halls of the school.`,
+          `Kevin sat in the corner with his eyes closed.`,
+          `My little sister often speaks with her mouth full.`
+        ],
+        drills: [
+          {
+            id: `G5-D1`,
+            type: `choice`,
+            prompt: `1. The old lady is sitting under a tree, with her eyes ______ and her back against the trunk.`,
+            options: [`close`, `closing`, `closed`, `to close`],
+            answer: `closed`,
+            explain: `眼睛 (her eyes) 是「被閉上的」，採被動過去分詞 closed。`
+          },
+          {
+            id: `G5-D2`,
+            type: `input`,
+            prompt: `2. 動詞變化：A young lady is riding a bike, with her hair ______ (blow) in the wind.`,
+            answer: `blowing`,
+            explain: `hair 在風中飄揚為主動進行動作，故用現在分詞 blowing。`
+          }
+        ]
+      },
+      {
+        id: `G6`,
+        lesson: `L6`,
+        title: `不定代名詞列舉用法`,
+        formula: `One... (, another...), and the other(s)... / Some... (, others...), and the others...`,
+        explanation: `用於有條理地列舉複數對象：(1) 若總數有限定、剩餘「最後一個或最後全部」須加定冠詞 the（如 the other / the others）；(2) 若無限定範圍、只泛指「一些…另一些…」則不加 the（如 Some..., and others...）。`,
+        trap: `考點陷阱：先判斷「有沒有特定總數或全部範圍」！例如：一個班上或七隻狗裡的「剩下的全部」要用 the others；只有兩個哥哥中的另一個是 the other。`,
+        examples: [
+          `Vicky has two brothers. One lives in Kaohsiung, and the other lives in Taichung.`,
+          `One called Auggie "little dude," another knuckle-punched him, and the others weren't scared anymore.`
+        ],
+        drills: [
+          {
+            id: `G6-D1`,
+            type: `choice`,
+            prompt: `1. These chairs are available in three colors. One is green, ______ is orange, and the other is blue.`,
+            options: [`other`, `another`, `the other`, `the others`],
+            answer: `another`,
+            explain: `三種顏色依序列舉：第一個 One，第二個未定任一個 another，最後剩下最後一個用 the other。`
+          },
+          {
+            id: `G6-D2`,
+            type: `input`,
+            prompt: `2. 填入正確代名詞（兩字）：I have seven dogs. Some of them are friendly, but ______ ______ don't enjoy strangers.`,
+            answer: `the others`,
+            explain: `已知總共只有七隻狗（有明確範圍），剩下的全部狗要用 the others。`
+          }
+        ]
+      }
+    ];
+
+    const PRONOUN_SCENARIOS = [
+      {
+        tokens: [{ cls: `one`, text: `1. One` }, { cls: `the-other`, text: `2. the other (最後一個)` }],
+        caption: `總數 = 2（兩者）：Vicky has two brothers. One lives in Kaohsiung, and the other lives in Taichung.`
+      },
+      {
+        tokens: [{ cls: `one`, text: `1. One` }, { cls: `another`, text: `2. another (任一)` }, { cls: `the-other`, text: `3. the other (最後一個)` }],
+        caption: `總數 = 3（三者）：One is candy, another is chewing gum, and the other is chocolate.`
+      },
+      {
+        tokens: [{ cls: `one`, text: `部分：Some` }, { cls: `the-other`, text: `範圍內剩餘全部：the others` }],
+        caption: `有明確範圍的兩群：Jason has seven dogs. Some of them are friendly, but the others don't enjoy strangers.`
+      },
+      {
+        tokens: [{ cls: `one`, text: `第一群：Some` }, { cls: `another`, text: `第二群：others / some` }, { cls: `the-other`, text: `剩餘全部：the others` }],
+        caption: `明確範圍分三群（如班上同學）：Some were drawing graffiti, some were chasing one another, and the others were jumping.`
+      },
+      {
+        tokens: [{ cls: `one`, text: `部分：Some` }, { cls: `another`, text: `另一些（非全部）：others` }],
+        caption: `無明確總數泛指：Some people like coffee, and others prefer tea.（沒有指定範圍剩餘全部，不加 the）`
+      }
+    ];
+
+    const PYRAMID_STAGES = [
+      { label: `Stage 1｜Exposition（開端背景）`, title: `入學初期與最初的朋友`, desc: `Auggie 擔心自己無法融入學校生活，但幸運地很快交到兩位好朋友：Jack 與 Summer；此外，可以戴面具的萬聖節也即將到來。` },
+      { label: `Stage 2｜Inciting Incident（引發事件）`, title: `萬聖節的傷心竊聽`, desc: `萬聖節當天 Auggie 戴著 Bleeding Scream 鬼臉面具昂首走在走廊，卻無意間聽見 Jack 對 Julian 說：「我只不過是因為校長拜託我才跟 Auggie 當朋友。」` },
+      { label: `Stage 3｜Rising Action（情節推展）`, title: `冷戰與真誠道歉和好`, desc: `Auggie 痛哭跑回家，整整一個月幾乎不跟 Jack 說話。Jack 發現後十分愧疚，意識到自己其實真心想跟 Auggie 當朋友，於是主動道歉和好，兩人感情變得比以前更好。` },
+      { label: `Stage 4｜Climax（故事最高潮）`, title: `露營夜的霸凌與全班捍衛`, desc: `學期末三天兩夜露營第二晚，別校七年級生拿手電筒照 Auggie 的臉並嘲笑他是「外星人」。危機時刻 Jack 挺身相救，連平常對 Auggie 刻薄的同班同學也加入保護他、一同逃離霸凌者。` },
+      { label: `Stage 5｜Falling Action（下降收束）`, title: `返校後的氛圍轉變`, desc: `回到學校後，大家對待 Auggie 的方式明顯不同：有人叫他 "little dude"、有人在走廊跟牠擊拳，人們不再害怕看他，而是像對待一般學生一樣。` },
+      { label: `Stage 6｜Resolution（問題解決）`, title: `結業典禮上的零距離`, desc: `在年終結業典禮上，Auggie 注意到不再有人介意靠近他，而他生平第一次不再抗拒讓別人幫他拍照。` },
+      { label: `Stage 7｜Denouement（結局歸屬）`, title: `真正的接納與歸屬感`, desc: `Auggie 成功挺過小學五年級第一年的種種考驗，不僅同學接納了真實的他，他自己也接納了自己，感受到深深的歸屬感 (a sense of belonging)。` }
+    ];
+
+    const CORNELL_PRESETS = {
+      R2: {
+        topic: `Review 2：康乃爾筆記法重點整理`,
+        cues: `1. 創始者與目的？\n2. 頁面分哪三區？\n(One... another... and the other...)\n3. 課後何時補齊 Cues？\n4. 反思三問是哪三個？\n5. 多久複習一次？`,
+        notes: `• Creator: Cornell Univ. education professor\n• 3 sections:\n  (1) Notes (R, wide): during class — short phrases, symbols, abbr., charts/drawings\n  (2) Cues (L, small): blank in class; complete in 1–2 days -> simpler keywords & possible Qs; cover Notes to recite!\n  (3) Summary (bottom): after reflecting -> write in own words\n• Review on a weekly basis -> remember longer & process faster`,
+        summary: `The Cornell note-taking system divides a page into Notes, Cues, and Summary sections. Taking short notes in class, creating cues to test oneself within two days, summarizing after reflection, and reviewing weekly help students learn effectively.`
+      },
+      L4: {
+        topic: `Lesson 4：Malala 文法與生平精華`,
+        cues: `• Text structure?\n• 2007–2009 發生什麼？\n• 2009 BBC blog?\n• 2012.10.09 事件與後續？\n• 兩大核心句型？`,
+        notes: `• Genre: Feature article (background + exploration) vs News report (inverted pyramid)\n• 2007–09: Taliban forbade girls' school, blew up >100 schools; father (principal) urged study\n• 2009: BBC blog -> annoyed Taliban -> threatened\n• 2012/10/9: shot on school truck -> survived -> UK recovery -> >2M signed -> new policy + Malala Fund\n• 2014: Nobel Peace Prize at 17\n• Grammar: N(,) + V-ing/p.p. ; have trouble + V-ing`,
+        summary: `Despite Taliban threats and a near-fatal attack in 2012, Malala spoke out for girls' education, inspiring global support, policy change in Pakistan, and winning the 2014 Nobel Peace Prize.`
+      },
+      L5: {
+        topic: `Lesson 5：Walt Disney 舉例結構與句型`,
+        cues: `• Main Idea?\n• Supporting details 3 examples?\n• Disney's quote?\n• All/What 句型重點？\n• ", which" 用法？`,
+        notes: `• Main Idea: Never give up pursuing dreams\n• Ex 1 (Song): "When You Wish Upon a Star" (1940 Pinocchio)\n• Ex 2 (Person): Walt Disney -> 1923 studio -> failures & poverty -> 1928 Mickey Mouse ("dream & a mouse")\n• Ex 3 (Animations): Mulan (wits, never-say-die) & Zootopia (Judy springs into action)\n• Grammar: All/What + S + do + is + (to) VR ; ..., which + V(單數)`,
+        summary: `Through its songs, Walt Disney's personal journey from poverty to success, and animated heroines like Mulan and Judy, Disney consistently delivers the message that we can fulfill our dreams if we keep trying.`
+      },
+      L6: {
+        topic: `Lesson 6：Wonder 情節與文法核心`,
+        cues: `• Point of View 變化？\n• Halloween 發生何事？\n• Camping Climax？\n• with + O + OC 四種補語？\n• One / the other(s) 差別？`,
+        notes: `• POV: Intro (1st person) -> Main text (3rd person)\n• Halloween: Bleeding Scream mask -> overheard Jack's cruel words -> cold war -> Jack apologized to make peace\n• Camping: 7th-graders bullied ("alien") -> Jack & classmates defended Auggie\n• End: Year-end ceremony -> no longer minded photos\n• Grammar: with + O + V-ing/p.p./adj./prep ; One..., another..., and the other(s)`,
+        summary: `Auggie faced teasing and a painful betrayal from Jack at first, but after Jack apologized and classmates stood up for him during a camping trip, Auggie finally felt accepted at school.`
+      }
+    };
+
+    const MOCK_EXAM_QUESTIONS = [
+      // L4 (5)
+      { id: `Q1`, lesson: `L4`, q: `The Taliban ______ girls to go to school, and over one hundred girls' schools were blown up.`, options: [`persuaded`, `forbade`, `ensured`, `established`], ans: 1, exp: `forbid (forbade-forbidden) 意為「禁止」，符合塔利班禁止女孩上學的課文脈絡。` },
+      { id: `Q2`, lesson: `L4`, q: `All the international attention ______ the Pakistani government to adopt a new policy ensuring equal education.`, options: [`threatened`, `annoyed`, `persuaded`, `recovered`], ans: 2, exp: `persuade sb. to VR 意為「說服某人去做…」，對應課文第 34 行原句。` },
+      { id: `Q3`, lesson: `L4`, q: `Over two million supporters worldwide signed a statement ______ equal education in Pakistan.`, options: [`called for`, `calling for`, `to call for`, `was calling for`], ans: 1, exp: `statement（聲明書）主動「呼籲」平等教育，將 which called for 簡化為現在分詞片語 calling for。` },
+      { id: `Q4`, lesson: `L4`, q: `For several months after the surgery, Malala had great trouble ______ clearly.`, options: [`speak`, `to speak`, `speaking`, `spoken`], ans: 2, exp: `have trouble + (in) + V-ing，後方必須接動名詞 speaking。` },
+      { id: `Q5`, lesson: `L4`, q: `關於課文〈Malala: Stronger Than Violence〉的文體結構，下列敘述何者正確？`, options: [`採用倒金字塔結構，將最不重要細節放第一段`, `為具時效性的純客觀新聞報導`, `屬於專題報導 (Feature Article)，包含馬拉拉的背景故事與深入探索`, `作者在文中強烈批評英國醫療體系`], ans: 2, exp: `本課〈Malala: Stronger Than Violence〉包含馬拉拉2007年起的成長背景與聯合國演說，屬於 Feature Article（課本 p.83 閱讀策略解答）。` },
+
+      // L5 (5)
+      { id: `Q6`, lesson: `L5`, q: `Though Walt Disney ______ a lot of failures and hardships, he never stopped trying.`, options: [`met with`, `sprang into`, `in turn`, `called for`], ans: 0, exp: `meet with 意為「遭遇到（困難、失敗、災難）」。` },
+      { id: `Q7`, lesson: `L5`, q: `Mulan shows her dedication and never-say-die ______ when overcoming gender-related difficulties.`, options: [`poverty`, `parade`, `attitude`, `delivery`], ans: 2, exp: `never-say-die attitude 意為「不氣餒的態度」。` },
+      { id: `Q8`, lesson: `L5`, q: `What we need to do ______ upon a star and make every possible effort to fulfill our dreams.`, options: [`are wish`, `is wish`, `is wishing`, `are to wish`], ans: 1, exp: `What we need to do 為主詞子句（單數），動詞用 is，後方接省略 to 的原形動詞 wish。` },
+      { id: `Q9`, lesson: `L5`, q: `Walt Disney created a cheerful little character called Mickey Mouse, ______ rescued his career.`, options: [`that`, `what`, `who`, `which`], ans: 3, exp: `非限定關係代名詞置於逗號後修飾前面整個創造米老鼠的概念／角色，只能用 which（不可用 that）。` },
+      { id: `Q10`, lesson: `L5`, q: `課本〈Disney Princess〉閱讀策略指出，近年迪士尼動畫女主角形象轉變的例證為何？`, options: [`Snow White 與 Cinderella 擅長打掃與縫紉`, `Mulan 擅長劍術，Merida 擅長射箭與騎馬`, `所有迪士尼女主角在電影中年齡都超過 20 歲`, `Elsa 與 Jasmine 從來不曾穿過長褲`], ans: 1, exp: `課本 p.103 Fun Fact Three 指出較新的電影遠離刻板印象，以 Mulan（sword fighting）和 Merida（arrow shooting, horseback riding）為例。` },
+
+      // L6 (5)
+      { id: `Q11`, lesson: `L6`, q: `His good mood abruptly changed when he ______ Jack talking to Julian in the hallway.`, options: [`pretended`, `overheard`, `apologized`, `approached`], ans: 1, exp: `overhear 意為「無意中聽到」，過去式為 overheard。` },
+      { id: `Q12`, lesson: `L6`, q: `Jack apologized to Auggie in order to ______ with him, and they became even better friends.`, options: [`make peace`, `make fun`, `fit in`, `sick to`], ans: 0, exp: `make peace (with sb.) 意為「和好」。make fun of 則是「嘲笑」。` },
+      { id: `Q13`, lesson: `L6`, q: `With the scary mask on, Auggie walked with his head ______ high through the halls of the school.`, options: [`hold`, `holding`, `held`, `to hold`], ans: 2, exp: `with + O (his head) + p.p. (held)，頭是「被抬起」，故用過去分詞 held。` },
+      { id: `Q14`, lesson: `L6`, q: `Jason keeps seven dogs at home. Some of them are friendly, but ______ don't enjoy strangers.`, options: [`other`, `another`, `others`, `the others`], ans: 3, exp: `已知總數為七隻（限定範圍），扣除友善的那部分後「剩餘全部」須加 the，故選 the others。` },
+      { id: `Q15`, lesson: `L6`, q: `在《奇蹟男孩》課文的 Freytag 情節金字塔中，哪一個事件屬於故事的「最高潮 (Climax)」？`, options: [`萬聖節 Auggie 聽到 Jack 的真心話`, `Jack 主動道歉讓兩人重修舊好`, `露營第二晚他校學生霸凌 Auggie，Jack 與同班同學挺身保護他`, `年終典禮上 Auggie 不再介意拍照`], ans: 2, exp: `根據課本 p.130 Freytag's Pyramid，露營夜的霸凌與同學挺身捍衛是全篇衝突的最高潮 (Climax)。` },
+
+      // R2 (5)
+      { id: `Q16`, lesson: `R2`, q: `The smaller column on the left should remain ______ during class because it is reserved for cues.`, options: [`frequent`, `blank`, `awful`, `cruel`], ans: 1, exp: `remain blank 保持空白，留待課後填寫 Cues。` },
+      { id: `Q17`, lesson: `R2`, q: `Once your cues are finalized, cover your Notes Section and challenge yourself to ______ important information.`, options: [`propose`, `recite`, `require`, `involve`], ans: 1, exp: `recite 意為「背誦」，遮住右欄筆記並透過左欄關鍵字背誦測試自己。` },
+      { id: `Q18`, lesson: `R2`, q: `Reviewing your notes ______ will ensure that you remember the information longer.`, options: [`on a weekly basis`, `in other words`, `around the corner`, `at least`], ans: 0, exp: `on a weekly basis 意為「每週定期地」。` },
+      { id: `Q19`, lesson: `R2`, q: `The Cornell note-taking system requires breaking your page up into three parts: one for notes, ______ for cues, and the other for a summary.`, options: [`other`, `the other`, `another`, `others`], ans: 2, exp: `三部分列舉搭配 L6 句型：one..., another..., and the other...。` },
+      { id: `Q20`, lesson: `R2`, q: `關於康乃爾筆記系統中的「Cues Section」，下列敘述何者正確？`, options: [`上課當下就要寫滿長篇大論的完整句子`, `應在課後一至兩天內完成，寫下簡潔關鍵字或老師可能考的問題`, `位在頁面最下方，用於寫個人學習感想`, `寫完之後就不需要再遮蓋 Notes 區來測試記憶`], ans: 1, exp: `課文指出 Cues Section 位於左欄，課中留白，應於課後一兩天內 (within a day or two) 補上精簡關鍵字與預期考題，並遮蓋 Notes 自我背誦測試。` }
+    ];
+
+    // =========================================================================
+    // 2. APPLICATION STATE & PERSISTENCE
+    // =========================================================================
+    let appState = {
+      masteredIds: [],
+      checklistIds: [],
+      grammarSolved: {},
+      examAnswers: {},
+      examSubmitted: false,
+      bestExamScore: null,
+      cornell: {
+        topic: `R2`,
+        cues: CORNELL_PRESETS.R2.cues,
+        notes: CORNELL_PRESETS.R2.notes,
+        summary: CORNELL_PRESETS.R2.summary
+      }
+    };
+
+    let currentVocabMode = `cards`;
+    let flashIndex = 0;
+    let flashFlipped = false;
+    let currentGrammarFilter = `ALL`;
+    let currentExamScope = `ALL`;
+    let cornellCovered = false;
+    let masteryChartInstance = null;
+
+    async function persistState() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+          await window.notebookAppApi.setAppState(appState);
+          const syncEl = document.getElementById(`sync-status-text`);
+          if (syncEl) syncEl.textContent = `複習進度已即時存檔`;
+        }
+      } catch (err) {
+        console.warn(`State save skipped:`, err);
+      }
+    }
+
+    // =========================================================================
+    // 3. KPI & CHART RENDERING
+    // =========================================================================
+    function updateKPIsAndChart() {
+      const totalVocab = VOCAB_DATA.length;
+      const masteredCount = appState.masteredIds.length;
+      const grammarTotal = GRAMMAR_MODULES.length * 2;
+      const grammarSolvedCount = Object.values(appState.grammarSolved).filter(Boolean).length;
+      const checklistCount = appState.checklistIds.length;
+      const checklistTotal = CHECKLIST_ITEMS.length;
+
+      const vocabRatio = masteredCount / totalVocab;
+      const grammarRatio = grammarSolvedCount / grammarTotal;
+      const checklistRatio = checklistCount / checklistTotal;
+      const examRatio = appState.bestExamScore !== null ? (appState.bestExamScore / 100) : 0;
+
+      const overallPct = Math.round(((vocabRatio * 0.4) + (grammarRatio * 0.3) + (checklistRatio * 0.15) + (examRatio * 0.15)) * 100);
+
+      const elOverall = document.getElementById(`kpi-overall`);
+      const elVocab = document.getElementById(`kpi-vocab`);
+      const elGrammar = document.getElementById(`kpi-grammar`);
+      const elExam = document.getElementById(`kpi-exam`);
+      const elExamNote = document.getElementById(`kpi-exam-note`);
+      const elCheckCount = document.getElementById(`checklist-count`);
+
+      if (elOverall) elOverall.textContent = `${overallPct}%`;
+      if (elVocab) elVocab.textContent = `${masteredCount} / ${totalVocab}`;
+      if (elGrammar) elGrammar.textContent = `${grammarSolvedCount} / ${grammarTotal}`;
+      if (elExam) elExam.textContent = appState.bestExamScore !== null ? `${appState.bestExamScore} 分` : `--`;
+      if (elExamNote) elExamNote.textContent = appState.bestExamScore !== null ? `已紀錄最高段考模考分數` : `尚未提交模擬試卷`;
+      if (elCheckCount) elCheckCount.textContent = `${checklistCount} / ${checklistTotal}`;
+
+      renderMasteryChart();
+    }
+
+    function renderMasteryChart() {
+      const canvas = document.getElementById(`masteryChart`);
+      if (!canvas || typeof Chart === `undefined`) return;
+
+      const lessons = [`L4`, `L5`, `L6`, `R2`];
+      const vocabPctByLesson = lessons.map(function (lsn) {
+        const items = VOCAB_DATA.filter(function (v) { return v.lesson === lsn; });
+        const done = items.filter(function (v) { return appState.masteredIds.includes(v.id); }).length;
+        return items.length ? Math.round((done / items.length) * 100) : 0;
+      });
+
+      const examPctByLesson = lessons.map(function (lsn) {
+        if (!appState.examSubmitted) return 0;
+        const qs = MOCK_EXAM_QUESTIONS.filter(function (q) { return q.lesson === lsn; });
+        const correct = qs.filter(function (q) { return appState.examAnswers[q.id] === q.ans; }).length;
+        return qs.length ? Math.round((correct / qs.length) * 100) : 0;
+      });
+
+      if (masteryChartInstance) {
+        masteryChartInstance.data.datasets[0].data = vocabPctByLesson;
+        masteryChartInstance.data.datasets[1].data = examPctByLesson;
+        masteryChartInstance.update();
+        return;
+      }
+
+      const styles = getComputedStyle(document.documentElement);
+      const color1 = styles.getPropertyValue(`--data-1`).trim();
+      const color2 = styles.getPropertyValue(`--data-2`).trim();
+      const textColor = styles.getPropertyValue(`--on-surface`).trim();
+      const gridColor = styles.getPropertyValue(`--outline-variant`).trim();
+
+      masteryChartInstance = new Chart(canvas, {
+        type: `bar`,
+        data: {
+          labels: [`L4 馬拉拉`, `L5 華特迪士尼`, `L6 奇蹟男孩`, `R2 康乃爾筆記`],
+          datasets: [
+            {
+              label: `字彙與片語精熟率 (%)`,
+              data: vocabPctByLesson,
+              backgroundColor: color1,
+              borderRadius: 3
+            },
+            {
+              label: `模擬考單元答對率 (%)`,
+              data: examPctByLesson,
+              backgroundColor: color2,
+              borderRadius: 3
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              ticks: { color: textColor, callback: function (v) { return `${v}%`; } },
+              grid: { color: gridColor }
+            },
+            x: {
+              ticks: { color: textColor },
+              grid: { display: false }
+            }
+          },
+          plugins: {
+            legend: {
+              position: `bottom`,
+              labels: { color: textColor, boxWidth: 14 }
+            }
+          }
+        }
+      });
+    }
+
+    // =========================================================================
+    // 4. LEARNING CHECKLIST
+    // =========================================================================
+    function renderChecklist() {
+      const container = document.getElementById(`checklist-container`);
+      if (!container) return;
+      container.innerHTML = CHECKLIST_ITEMS.map(function (item) {
+        const checked = appState.checklistIds.includes(item.id);
+        return `
+          <label class="check-item ${checked ? `checked` : ``}">
+            <input type="checkbox" ${checked ? `checked` : ``} onchange="toggleChecklistItem('${item.id}')">
+            <span>${item.label}</span>
+          </label>
+        `;
+      }).join(``);
+    }
+
+    function toggleChecklistItem(id) {
+      const idx = appState.checklistIds.indexOf(id);
+      if (idx === -1) {
+        appState.checklistIds.push(id);
+      } else {
+        appState.checklistIds.splice(idx, 1);
+      }
+      renderChecklist();
+      updateKPIsAndChart();
+      persistState();
+    }
+
+    // =========================================================================
+    // 5. VOCABULARY & IDIOMS EXPLORER
+    // =========================================================================
+    function getFilteredVocab() {
+      const searchEl = document.getElementById(`vocab-search`);
+      const lessonEl = document.getElementById(`vocab-lesson-filter`);
+      const typeEl = document.getElementById(`vocab-type-filter`);
+
+      const q = (searchEl ? searchEl.value : ``).trim().toLowerCase();
+      const lesson = lessonEl ? lessonEl.value : `ALL`;
+      const typeFilter = typeEl ? typeEl.value : `ALL`;
+
+      return VOCAB_DATA.filter(function (item) {
+        if (lesson !== `ALL` && item.lesson !== lesson) return false;
+        const isMastered = appState.masteredIds.includes(item.id);
+        if (typeFilter === `word` && item.type !== `word`) return false;
+        if (typeFilter === `idiom` && item.type !== `idiom`) return false;
+        if (typeFilter === `mastered` && !isMastered) return false;
+        if (typeFilter === `unmastered` && isMastered) return false;
+        if (q) {
+          const hay = `${item.term} ${item.meaning} ${item.derived} ${item.lesson}`.toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+    }
+
+    function setVocabViewMode(mode) {
+      currentVocabMode = mode;
+      const btnCards = document.getElementById(`mode-cards`);
+      const btnFlash = document.getElementById(`mode-flash`);
+      const btnTable = document.getElementById(`mode-table`);
+      if (btnCards) btnCards.setAttribute(`aria-pressed`, mode === `cards` ? `true` : `false`);
+      if (btnFlash) btnFlash.setAttribute(`aria-pressed`, mode === `flash` ? `true` : `false`);
+      if (btnTable) btnTable.setAttribute(`aria-pressed`, mode === `table` ? `true` : `false`);
+
+      const cardsEl = document.getElementById(`vocab-cards-view`);
+      const flashEl = document.getElementById(`vocab-flash-view`);
+      const tableEl = document.getElementById(`vocab-table-view`);
+      if (cardsEl) cardsEl.classList.toggle(`hidden`, mode !== `cards`);
+      if (flashEl) flashEl.classList.toggle(`hidden`, mode !== `flash`);
+      if (tableEl) tableEl.classList.toggle(`hidden`, mode !== `table`);
+
+      renderVocab();
+    }
+
+    function getLessonTagClass(lesson) {
+      if (lesson === `L4`) return `l4`;
+      if (lesson === `L5`) return `l5`;
+      if (lesson === `L6`) return `l6`;
+      return `r2`;
+    }
+
+    function renderVocab() {
+      const list = getFilteredVocab();
+      const countEl = document.getElementById(`vocab-result-count`);
+      if (countEl) countEl.textContent = `顯示 ${list.length} / ${VOCAB_DATA.length} 項`;
+
+      if (currentVocabMode === `cards`) {
+        const cardsEl = document.getElementById(`vocab-cards-view`);
+        if (!cardsEl) return;
+        if (list.length === 0) {
+          cardsEl.innerHTML = `<div class="panel-card">找不到符合條件的字彙或片語，請調整搜尋關鍵字或篩選器。</div>`;
+          return;
+        }
+        cardsEl.innerHTML = list.map(function (item) {
+          const mastered = appState.masteredIds.includes(item.id);
+          return `
+            <article class="vocab-card ${mastered ? `mastered` : ``}">
+              <div class="vocab-card-top">
+                <div>
+                  <h3 class="vocab-word">${item.term}</h3>
+                  <div class="vocab-phonetic">${item.pos} ${item.phonetic}</div>
+                </div>
+                <span class="lesson-tag ${getLessonTagClass(item.lesson)}">${item.lesson} ${item.type === `idiom` ? `片語` : `字彙`}</span>
+              </div>
+              <div class="vocab-meaning">${item.meaning}</div>
+              <div class="vocab-derived">${item.derived}</div>
+              <div class="vocab-example">${item.example}</div>
+              <div class="vocab-card-foot">
+                <span class="dossier-meta">${mastered ? `✓ 已精熟` : `尚未標記`}</span>
+                <button type="button" class="btn ${mastered ? `btn-accent` : `btn-secondary`} btn-sm" onclick="toggleVocabMastered('${item.id}')">
+                  ${mastered ? `取消精熟` : `標記精熟`}
+                </button>
+              </div>
+            </article>
+          `;
+        }).join(``);
+      } else if (currentVocabMode === `table`) {
+        const tbody = document.getElementById(`vocab-table-body`);
+        if (!tbody) return;
+        if (list.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="6">無符合資料</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = list.map(function (item) {
+          const mastered = appState.masteredIds.includes(item.id);
+          return `
+            <tr>
+              <td><span class="lesson-tag ${getLessonTagClass(item.lesson)}">${item.lesson}</span></td>
+              <td><strong>${item.term}</strong><div class="vocab-phonetic">${item.phonetic}</div></td>
+              <td>${item.pos}<div class="vocab-derived">${item.derived}</div></td>
+              <td><strong>${item.meaning}</strong></td>
+              <td>${item.example}</td>
+              <td>
+                <button type="button" class="btn ${mastered ? `btn-accent` : `btn-secondary`} btn-sm" onclick="toggleVocabMastered('${item.id}')">
+                  ${mastered ? `✓ 已精熟` : `標記`}
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join(``);
+      } else {
+        renderFlashcard(list);
+      }
+    }
+
+    function renderFlashcard(list) {
+      const counterEl = document.getElementById(`flash-counter`);
+      const frontWord = document.getElementById(`flash-front-word`);
+      const frontPos = document.getElementById(`flash-front-pos`);
+      const tagEl = document.getElementById(`flash-tag`);
+      const backEl = document.getElementById(`flash-back-content`);
+      const hintEl = document.getElementById(`flash-hint`);
+      const meaningEl = document.getElementById(`flash-meaning`);
+      const derivedEl = document.getElementById(`flash-derived`);
+      const exampleEl = document.getElementById(`flash-example`);
+      const masterBtn = document.getElementById(`flash-master-btn`);
+
+      if (!list.length) {
+        if (counterEl) counterEl.textContent = `無符合項目`;
+        if (frontWord) frontWord.textContent = `請調整篩選條件`;
+        if (frontPos) frontPos.textContent = ``;
+        if (backEl) backEl.classList.add(`hidden`);
+        return;
+      }
+
+      if (flashIndex >= list.length) flashIndex = 0;
+      if (flashIndex < 0) flashIndex = list.length - 1;
+
+      const item = list[flashIndex];
+      const mastered = appState.masteredIds.includes(item.id);
+
+      if (counterEl) counterEl.textContent = `第 ${flashIndex + 1} 張 / 共 ${list.length} 張`;
+      if (tagEl) {
+        tagEl.textContent = `${item.lesson} ${item.type === `idiom` ? `片語` : `字彙`}`;
+        tagEl.className = `lesson-tag ${getLessonTagClass(item.lesson)}`;
+      }
+      if (frontWord) frontWord.textContent = item.term;
+      if (frontPos) frontPos.textContent = `${item.pos} ${item.phonetic}`;
+      if (meaningEl) meaningEl.textContent = item.meaning;
+      if (derivedEl) derivedEl.textContent = item.derived;
+      if (exampleEl) exampleEl.textContent = item.example;
+      if (backEl) backEl.classList.toggle(`hidden`, !flashFlipped);
+      if (hintEl) hintEl.textContent = flashFlipped ? `點擊卡片可收回解答` : `點擊卡片或按 Enter 查看釋義與例句`;
+      if (masterBtn) masterBtn.textContent = mastered ? `✓ 已精熟（點擊取消）` : `標記為已精熟`;
+    }
+
+    function toggleFlashcardFlip() {
+      flashFlipped = !flashFlipped;
+      renderFlashcard(getFilteredVocab());
+    }
+
+    function handleFlashKey(ev) {
+      if (ev.key === `Enter` || ev.key === ` `) {
+        ev.preventDefault();
+        toggleFlashcardFlip();
+      }
+    }
+
+    function stepFlashcard(delta) {
+      const list = getFilteredVocab();
+      if (!list.length) return;
+      flashIndex = (flashIndex + delta + list.length) % list.length;
+      flashFlipped = false;
+      renderFlashcard(list);
+    }
+
+    function toggleCurrentFlashMastered() {
+      const list = getFilteredVocab();
+      if (!list.length) return;
+      const item = list[flashIndex];
+      if (item) toggleVocabMastered(item.id);
+    }
+
+    function toggleVocabMastered(id) {
+      const idx = appState.masteredIds.indexOf(id);
+      if (idx === -1) {
+        appState.masteredIds.push(id);
+      } else {
+        appState.masteredIds.splice(idx, 1);
+      }
+      renderVocab();
+      updateKPIsAndChart();
+      persistState();
+    }
+
+    // =========================================================================
+    // 6. GRAMMAR LAB & PRONOUN VISUALIZER
+    // =========================================================================
+    function setPronounScenario(index, btn) {
+      const group = btn ? btn.parentElement : null;
+      if (group) {
+        Array.from(group.querySelectorAll(`.filter-pill`)).forEach(function (b) {
+          b.setAttribute(`aria-pressed`, `false`);
+        });
+        btn.setAttribute(`aria-pressed`, `true`);
+      }
+      const sc = PRONOUN_SCENARIOS[index];
+      const vizEl = document.getElementById(`pronoun-viz-display`);
+      const capEl = document.getElementById(`pronoun-viz-caption`);
+      if (vizEl && sc) {
+        vizEl.innerHTML = sc.tokens.map(function (t) {
+          return `<span class="pronoun-token ${t.cls}">${t.text}</span>`;
+        }).join(`<span aria-hidden="true">➔</span>`);
+      }
+      if (capEl && sc) capEl.textContent = sc.caption;
+    }
+
+    function filterGrammar(lesson, btn) {
+      currentGrammarFilter = lesson;
+      if (btn && btn.parentElement) {
+        Array.from(btn.parentElement.querySelectorAll(`.filter-pill`)).forEach(function (b) {
+          b.setAttribute(`aria-pressed`, `false`);
+        });
+        btn.setAttribute(`aria-pressed`, `true`);
+      }
+      renderGrammar();
+    }
+
+    function renderGrammar() {
+      const container = document.getElementById(`grammar-container`);
+      if (!container) return;
+      const list = GRAMMAR_MODULES.filter(function (g) {
+        return currentGrammarFilter === `ALL` || g.lesson === currentGrammarFilter;
+      });
+
+      container.innerHTML = list.map(function (g) {
+        const drillsHtml = g.drills.map(function (d) {
+          const isSolved = !!appState.grammarSolved[d.id];
+          if (d.type === `choice`) {
+            return `
+              <div class="drill-box">
+                <div style="font-weight:600; font-size:0.9rem;">${d.prompt}</div>
+                <div class="pill-group">
+                  ${d.options.map(function (opt) {
+                    return `<button type="button" class="btn btn-secondary btn-sm" onclick="checkGrammarChoice('${d.id}', '${opt.replace(/'/g, `\\'`)}')">${opt}</button>`;
+                  }).join(``)}
+                </div>
+                <div id="fb-${d.id}" class="drill-feedback ${isSolved ? `ok` : `hidden`}">
+                  ${isSolved ? `✓ 答對了！${d.explain}` : ``}
+                </div>
+              </div>
+            `;
+          } else {
+            return `
+              <div class="drill-box">
+                <label class="field-label" for="inp-${d.id}" style="font-size:0.9rem; font-family:var(--font-body);">${d.prompt}</label>
+                <div style="display:flex; gap:var(--space-xs); align-items:center;">
+                  <input type="text" id="inp-${d.id}" class="input-control" placeholder="輸入英文答案..." value="${isSolved ? d.answer : ``}">
+                  <button type="button" class="btn btn-primary btn-sm" style="flex-shrink:0;" onclick="checkGrammarInput('${d.id}')">檢查</button>
+                </div>
+                <div id="fb-${d.id}" class="drill-feedback ${isSolved ? `ok` : `hidden`}">
+                  ${isSolved ? `✓ 答對了！${d.explain}` : ``}
+                </div>
+              </div>
+            `;
+          }
+        }).join(``);
+
+        return `
+          <article class="grammar-card">
+            <div class="panel-header">
+              <h3 class="panel-title">${g.title}</h3>
+              <span class="lesson-tag ${getLessonTagClass(g.lesson)}">${g.lesson} 核心文法</span>
+            </div>
+            <div class="formula-box">${g.formula}</div>
+            <p style="margin:0; font-size:0.9375rem;">${g.explanation}</p>
+            <div class="trap-callout">${g.trap}</div>
+            <div>
+              <strong style="font-size:0.85rem; color:var(--on-surface-variant);">課本原句示範：</strong>
+              <ul style="margin:0.35rem 0 0 0; padding-left:1.2rem; font-size:0.875rem;">
+                ${g.examples.map(function (ex) { return `<li>${ex}</li>`; }).join(``)}
+              </ul>
+            </div>
+            ${drillsHtml}
+          </article>
+        `;
+      }).join(``);
+    }
+
+    function findDrillById(drillId) {
+      for (let i = 0; i < GRAMMAR_MODULES.length; i++) {
+        const d = GRAMMAR_MODULES[i].drills.find(function (x) { return x.id === drillId; });
+        if (d) return d;
+      }
+      return null;
+    }
+
+    function checkGrammarChoice(drillId, chosen) {
+      const drill = findDrillById(drillId);
+      const fb = document.getElementById(`fb-${drillId}`);
+      if (!drill || !fb) return;
+      fb.classList.remove(`hidden`, `ok`, `bad`);
+      if (chosen === drill.answer) {
+        fb.classList.add(`ok`);
+        fb.textContent = `✓ 答對了！${drill.explain}`;
+        appState.grammarSolved[drillId] = true;
+        updateKPIsAndChart();
+        persistState();
+      } else {
+        fb.classList.add(`bad`);
+        fb.textContent = `✗ 尚未正確：你選的是 "${chosen}"。提示：${drill.explain}`;
+      }
+    }
+
+    function checkGrammarInput(drillId) {
+      const drill = findDrillById(drillId);
+      const inp = document.getElementById(`inp-${drillId}`);
+      const fb = document.getElementById(`fb-${drillId}`);
+      if (!drill || !inp || !fb) return;
+      const val = inp.value.trim().toLowerCase().replace(/\s+/g, ` `);
+      const ans = drill.answer.toLowerCase();
+      fb.classList.remove(`hidden`, `ok`, `bad`);
+      if (val === ans || (drillId === `G3-D2` && val === `to keep`)) {
+        fb.classList.add(`ok`);
+        fb.textContent = `✓ 答對了！${drill.explain}`;
+        appState.grammarSolved[drillId] = true;
+        updateKPIsAndChart();
+        persistState();
+      } else {
+        fb.classList.add(`bad`);
+        fb.textContent = `✗ 再檢查一下拼字或動詞形態喔！參考正解方向：${drill.explain}`;
+      }
+    }
+
+    // =========================================================================
+    // 7. READING PYRAMID & CORNELL WORKSPACE
+    // =========================================================================
+    function selectPyramidStage(idx) {
+      const stage = PYRAMID_STAGES[idx];
+      const lbl = document.getElementById(`pyramid-stage-label`);
+      const tit = document.getElementById(`pyramid-stage-title`);
+      const desc = document.getElementById(`pyramid-stage-desc`);
+      if (!stage) return;
+      if (lbl) lbl.textContent = stage.label;
+      if (tit) tit.textContent = stage.title;
+      if (desc) desc.textContent = stage.desc;
+    }
+
+    function loadCornellPreset(key) {
+      const preset = CORNELL_PRESETS[key];
+      if (!preset) return;
+      appState.cornell.topic = key;
+      appState.cornell.cues = preset.cues;
+      appState.cornell.notes = preset.notes;
+      appState.cornell.summary = preset.summary;
+      syncCornellDOM();
+      persistState();
+    }
+
+    function syncCornellDOM() {
+      const lbl = document.getElementById(`cornell-topic-label`);
+      const cuesEl = document.getElementById(`cornell-cues-input`);
+      const notesEl = document.getElementById(`cornell-notes-input`);
+      const sumEl = document.getElementById(`cornell-summary-input`);
+      const preset = CORNELL_PRESETS[appState.cornell.topic];
+      if (lbl) lbl.textContent = preset ? preset.topic : `自訂複習筆記`;
+      if (cuesEl) cuesEl.value = appState.cornell.cues || ``;
+      if (notesEl) notesEl.value = appState.cornell.notes || ``;
+      if (sumEl) sumEl.value = appState.cornell.summary || ``;
+    }
+
+    function saveCornellInputs() {
+      const cuesEl = document.getElementById(`cornell-cues-input`);
+      const notesEl = document.getElementById(`cornell-notes-input`);
+      const sumEl = document.getElementById(`cornell-summary-input`);
+      if (cuesEl) appState.cornell.cues = cuesEl.value;
+      if (notesEl) appState.cornell.notes = notesEl.value;
+      if (sumEl) appState.cornell.summary = sumEl.value;
+      persistState();
+    }
+
+    function toggleCornellCover() {
+      cornellCovered = !cornellCovered;
+      const panel = document.getElementById(`cornell-notes-panel`);
+      const btn = document.getElementById(`btn-toggle-cover`);
+      if (panel) panel.classList.toggle(`covered`, cornellCovered);
+      if (btn) {
+        btn.textContent = cornellCovered ? `顯示 Notes 區對照答案` : `遮蓋 Notes 區背誦自測`;
+      }
+    }
+
+    // =========================================================================
+    // 8. MOCK EXAM ENGINE
+    // =========================================================================
+    function getScopedQuestions() {
+      return MOCK_EXAM_QUESTIONS.filter(function (q) {
+        return currentExamScope === `ALL` || q.lesson === currentExamScope;
+      });
+    }
+
+    function setExamScope(scope, btn) {
+      currentExamScope = scope;
+      if (btn && btn.parentElement) {
+        Array.from(btn.parentElement.querySelectorAll(`.filter-pill`)).forEach(function (b) {
+          b.setAttribute(`aria-pressed`, `false`);
+        });
+        btn.setAttribute(`aria-pressed`, `true`);
+      }
+      renderExam();
+    }
+
+    function renderExam() {
+      const container = document.getElementById(`exam-questions-container`);
+      const countEl = document.getElementById(`exam-answered-count`);
+      const bannerEl = document.getElementById(`exam-result-banner`);
+      if (!container) return;
+
+      const qs = getScopedQuestions();
+      const answeredCount = qs.filter(function (q) { return appState.examAnswers[q.id] !== undefined; }).length;
+      if (countEl) countEl.textContent = `已作答 ${answeredCount} / ${qs.length} 題`;
+
+      const labels = [`(A)`, `(B)`, `(C)`, `(D)`];
+
+      container.innerHTML = qs.map(function (q, idx) {
+        const chosen = appState.examAnswers[q.id];
+        const submitted = appState.examSubmitted;
+
+        const optsHtml = q.options.map(function (opt, oIdx) {
+          let cls = `quiz-opt`;
+          if (!submitted) {
+            if (chosen === oIdx) cls += ` selected`;
+          } else {
+            if (oIdx === q.ans) cls += ` correct`;
+            else if (chosen === oIdx && chosen !== q.ans) cls += ` wrong`;
+          }
+          return `
+            <button type="button" class="${cls}" onclick="selectExamOption('${q.id}', ${oIdx})">
+              <strong>${labels[oIdx]}</strong>
+              <span>${opt}</span>
+            </button>
+          `;
+        }).join(``);
+
+        const expHtml = submitted
+          ? `<div class="drill-feedback ${chosen === q.ans ? `ok` : `bad`}">
+               ${chosen === q.ans ? `✓ 答對！` : `✗ 正解為 ${labels[q.ans]}。`}${q.exp}
+             </div>`
+          : ``;
+
+        return `
+          <div class="quiz-item">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:var(--space-sm);">
+              <strong>第 ${idx + 1} 題</strong>
+              <span class="lesson-tag ${getLessonTagClass(q.lesson)}">${q.lesson}</span>
+            </div>
+            <div style="font-size:1rem;">${q.q}</div>
+            <div class="quiz-options">${optsHtml}</div>
+            ${expHtml}
+          </div>
+        `;
+      }).join(``);
+
+      if (bannerEl) {
+        if (appState.examSubmitted) {
+          bannerEl.classList.remove(`hidden`);
+          renderExamResultBanner(qs);
+        } else {
+          bannerEl.classList.add(`hidden`);
+        }
+      }
+    }
+
+    function selectExamOption(qId, oIdx) {
+      if (appState.examSubmitted) return;
+      appState.examAnswers[qId] = oIdx;
+      renderExam();
+      persistState();
+    }
+
+    function renderExamResultBanner(qs) {
+      const headline = document.getElementById(`exam-score-headline`);
+      const breakdown = document.getElementById(`exam-breakdown`);
+      if (!headline || !breakdown) return;
+
+      const correctTotal = qs.filter(function (q) { return appState.examAnswers[q.id] === q.ans; }).length;
+      const pct = Math.round((correctTotal / qs.length) * 100);
+      headline.textContent = `本次測驗得分：${pct} 分（答對 ${correctTotal} / ${qs.length} 題）`;
+
+      const lessons = currentExamScope === `ALL` ? [`L4`, `L5`, `L6`, `R2`] : [currentExamScope];
+      breakdown.innerHTML = lessons.map(function (lsn) {
+        const subQs = qs.filter(function (q) { return q.lesson === lsn; });
+        const subOk = subQs.filter(function (q) { return appState.examAnswers[q.id] === q.ans; }).length;
+        const subPct = Math.round((subOk / subQs.length) * 100);
+        return `
+          <div class="figure-card">
+            <span class="figure-label">${lsn} 單元答對率</span>
+            <span class="figure-value">${subPct}%</span>
+            <span class="figure-foot">答對 ${subOk} / ${subQs.length} 題</span>
+          </div>
+        `;
+      }).join(``);
+    }
+
+    function gradeExam() {
+      const qs = getScopedQuestions();
+      const correctTotal = qs.filter(function (q) { return appState.examAnswers[q.id] === q.ans; }).length;
+      const score = Math.round((correctTotal / qs.length) * 100);
+
+      appState.examSubmitted = true;
+      if (currentExamScope === `ALL`) {
+        if (appState.bestExamScore === null || score > appState.bestExamScore) {
+          appState.bestExamScore = score;
+        }
+      } else if (appState.bestExamScore === null) {
+        appState.bestExamScore = score;
+      }
+
+      renderExam();
+      updateKPIsAndChart();
+      persistState();
+      const banner = document.getElementById(`exam-result-banner`);
+      if (banner) banner.scrollIntoView({ behavior: `smooth`, block: `nearest` });
+    }
+
+    function resetExamAttempt() {
+      appState.examAnswers = {};
+      appState.examSubmitted = false;
+      renderExam();
+      updateKPIsAndChart();
+      persistState();
+    }
+
+    // =========================================================================
+    // 9. EXPORT & TWO-STEP RESET (NO confirm/alert)
+    // =========================================================================
+    function exportStudyReport() {
+      const lines = [
+        `龍騰高中英文第二冊第二次段考 自主複習紀錄報告`,
+        `==================================================`,
+        `已精熟字彙與片語：${appState.masteredIds.length} / ${VOCAB_DATA.length}`,
+        `課本自我檢核表完成：${appState.checklistIds.length} / ${CHECKLIST_ITEMS.length}`,
+        `文法句型演練通關：${Object.values(appState.grammarSolved).filter(Boolean).length} / ${GRAMMAR_MODULES.length * 2}`,
+        `模擬考最佳成績：${appState.bestExamScore !== null ? appState.bestExamScore + ` 分` : `尚未測驗`}`,
+        ``,
+        `--- 康乃爾個人複習筆記 (${appState.cornell.topic}) ---`,
+        `[Cues]\n${appState.cornell.cues}`,
+        ``,
+        `[Notes]\n${appState.cornell.notes}`,
+        ``,
+        `[Summary]\n${appState.cornell.summary}`
+      ];
+      const content = lines.join(`\n`);
+      if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === `function`) {
+        window.notebookAppApi.triggerFileDownload({
+          content: content,
+          contentType: `text/plain`,
+          encoding: `UTF-8`,
+          filename: `LungTeng_B2_Midterm2_Review.txt`
+        });
+      }
+    }
+
+    function handleResetProgress(btn) {
+      if (btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = `再按一次確認清空所有進度`;
+        setTimeout(function () {
+          if (btn.dataset.armed === `true`) {
+            btn.dataset.armed = `false`;
+            btn.textContent = `重設學習進度`;
+          }
+        }, 4000);
+        return;
+      }
+      btn.dataset.armed = `false`;
+      btn.textContent = `重設學習進度`;
+      appState = {
+        masteredIds: [],
+        checklistIds: [],
+        grammarSolved: {},
+        examAnswers: {},
+        examSubmitted: false,
+        bestExamScore: null,
+        cornell: {
+          topic: `R2`,
+          cues: CORNELL_PRESETS.R2.cues,
+          notes: CORNELL_PRESETS.R2.notes,
+          summary: CORNELL_PRESETS.R2.summary
+        }
+      };
+      renderAll();
+      persistState();
+    }
+
+    // =========================================================================
+    // 10. INITIALIZATION
+    // =========================================================================
+    function renderAll() {
+      renderChecklist();
+      renderVocab();
+      renderGrammar();
+      setPronounScenario(0, null);
+      selectPyramidStage(3);
+      syncCornellDOM();
+      renderExam();
+      updateKPIsAndChart();
+      if (window.lucide && typeof window.lucide.createIcons === `function`) {
+        window.lucide.createIcons();
+      }
+    }
+
+    async function initApp() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === `object`) {
+            if (Array.isArray(saved.masteredIds)) appState.masteredIds = saved.masteredIds;
+            if (Array.isArray(saved.checklistIds)) appState.checklistIds = saved.checklistIds;
+            if (saved.grammarSolved && typeof saved.grammarSolved === `object`) appState.grammarSolved = saved.grammarSolved;
+            if (saved.examAnswers && typeof saved.examAnswers === `object`) appState.examAnswers = saved.examAnswers;
+            if (typeof saved.examSubmitted === `boolean`) appState.examSubmitted = saved.examSubmitted;
+            if (typeof saved.bestExamScore === `number`) appState.bestExamScore = saved.bestExamScore;
+            if (saved.cornell && typeof saved.cornell === `object`) appState.cornell = saved.cornell;
+          }
+        }
+      } catch (err) {
+        console.warn(`Could not restore saved state:`, err);
+      }
+
+      renderAll();
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    document.addEventListener(`DOMContentLoaded`, initApp);
+  </script>
+</body>
+</html>
